@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Planning Desk — The ACT Before ManufACTure</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════════ */
+:root {
+  --blue:      #1aadf0;
+  --blue-dk:   #0d8ecf;
+  --blue-dim:  rgba(26,173,240,.12);
+  --navy:      #1c2b3a;
+  --navy-lt:   #243648;
+  --charcoal:  #2d3a47;
+  --ink:       #0e1820;
+  --mid:       #5a6e7f;
+  --rule:      #d0dbe4;
+  --off:       #f3f7fa;
+  --white:     #ffffff;
+  --danger:    #e05535;
+
+  --cond: 'Barlow Condensed', sans-serif;
+  --body: 'Barlow', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+
+  --nav-h: 68px;
+  --max: 1160px;
+}
+
+/* ════════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--body);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--white);
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+button, input, textarea, select { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* ════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: var(--navy);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid var(--blue);
+}
+.nav-inner {
+  max-width: var(--max);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: auto;
+}
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.nav-logo-name {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: var(--white);
+  line-height: 1;
+}
+.nav-logo-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nav-link {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: color .2s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+}
+.nav-link:hover { color: var(--white); }
+.nav-link.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+.nav-cta {
+  margin-left: 16px;
+  background: var(--blue);
+  color: var(--white) !important;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 10px 18px !important;
+  border: none;
+  cursor: pointer;
+  transition: background .2s;
+  border-bottom: 2px solid transparent !important;
+  margin-bottom: 0 !important;
+}
+.nav-cta:hover { background: var(--blue-dk) !important; color: var(--white) !important; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  transition: .3s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--nav-h);
+  left: 0; right: 0;
+  background: var(--navy);
+  z-index: 99;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--blue);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu .nav-link {
+  display: block;
+  padding: 14px 32px;
+  border-bottom: none;
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+/* ════════════════════════════════════════════
+   PAGES (tab system)
+════════════════════════════════════════════ */
+.page { display: none; padding-top: var(--nav-h); }
+.page.active { display: block; }
+
+/* ════════════════════════════════════════════
+   SECTION WRAPPER
+════════════════════════════════════════════ */
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ════════════════════════════════════════════
+   HOME — HERO
+════════════════════════════════════════════ */
+.hero {
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+}
+/* Blueprint grid bg */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(26,173,240,.04) 0, rgba(26,173,240,.04) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg,  rgba(26,173,240,.04) 0, rgba(26,173,240,.04) 1px, transparent 1px, transparent 60px);
+}
+/* Big ghost type removed */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 80px 32px;
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 60px;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 2px;
+  background: var(--blue);
+}
+.hero-title {
+  font-family: var(--cond);
+  font-weight: 900;
+  font-size: clamp(64px, 8vw, 108px);
+  line-height: .92;
+  color: var(--white);
+  letter-spacing: -.01em;
+}
+.hero-title span { color: var(--blue); }
+.hero-tagline {
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.65);
+  margin-top: 22px;
+  max-width: 520px;
+}
+.hero-tagline strong { color: var(--blue); font-weight: 600; }
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--blue);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 15px 28px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: var(--blue-dk); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  color: rgba(255,255,255,.7);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border: 1px solid rgba(255,255,255,.2);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Podcast card */
+.hero-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(26,173,240,.2);
+  padding: 28px;
+  position: relative;
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--blue);
+}
+.hc-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+.hc-ep {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 6px;
+}
+.hc-title {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.hc-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.5);
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.hc-play {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.play-btn {
+  width: 42px; height: 42px;
+  background: var(--blue);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: transform .2s, background .2s;
+}
+.play-btn:hover { transform: scale(1.08); background: var(--blue-dk); }
+.play-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .1em;
+}
+.play-meta strong { color: var(--white); display: block; font-size: 12px; }
+
+/* Platforms row */
+.platforms {
+  background: var(--charcoal);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.platforms-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+.platform-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,.1);
+  transition: border-color .2s, color .2s;
+  cursor: pointer;
+}
+.platform-badge:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-bottom: 1px solid var(--rule);
+}
+.stat-box {
+  padding: 36px 24px;
+  text-align: center;
+  border-right: 1px solid var(--rule);
+  animation: fadeUp .6s ease both;
+}
+.stat-box:last-child { border-right: none; }
+.stat-n {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 52px;
+  color: var(--blue);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.stat-l {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 6px;
+}
+
+/* Featured episodes */
+.section-hdr {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.section-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: .04em;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.ep-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  margin-bottom: 1px;
+}
+.ep-card {
+  background: var(--white);
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.ep-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--rule);
+  transition: background .2s;
+}
+.ep-card:hover { background: var(--off); }
+.ep-card:hover::before { background: var(--blue); }
+.ep-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.ep-title-sm {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: .04em;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.ep-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--mid);
+  font-weight: 300;
+}
+.ep-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 14px;
+}
+.ep-tag {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue-dk);
+  background: var(--blue-dim);
+  padding: 3px 8px;
+}
+
+/* Newsletter */
+.newsletter {
+  background: var(--navy);
+  padding: 60px 32px;
+  position: relative;
+  overflow: hidden;
+}
+/* newsletter cog watermark removed */
+.newsletter-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+}
+.nl-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.1;
+}
+.nl-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,.5);
+  font-weight: 300;
+  margin-top: 8px;
+}
+.nl-form {
+  display: flex;
+  gap: 0;
+}
+.nl-input {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-right: none;
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 14px 20px;
+  width: 280px;
+  outline: none;
+  transition: border-color .2s;
+}
+.nl-input::placeholder { color: rgba(255,255,255,.3); }
+.nl-input:focus { border-color: var(--blue); }
+.nl-btn {
+  background: var(--blue);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.nl-btn:hover { background: var(--blue-dk); }
+
+/* ════════════════════════════════════════════
+   EPISODES PAGE
+════════════════════════════════════════════ */
+.page-hero {
+  background: var(--navy);
+  padding: 64px 32px 56px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, rgba(26,173,240,.03) 0, rgba(26,173,240,.03) 1px, transparent 1px, transparent 60px),
+              repeating-linear-gradient(0deg,  rgba(26,173,240,.03) 0, rgba(26,173,240,.03) 1px, transparent 1px, transparent 60px);
+}
+.page-hero-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.ph-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.ph-title {
+  font-family: var(--cond);
+  font-weight: 900;
+  font-size: clamp(44px, 6vw, 72px);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: .95;
+}
+.ph-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,.5);
+  margin-top: 12px;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.episodes-list {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 52px 32px 80px;
+}
+.ep-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 28px;
+  align-items: start;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background .15s;
+}
+.ep-row:hover .ep-row-title { color: var(--blue); }
+.ep-row-num {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 48px;
+  color: var(--rule);
+  line-height: 1;
+  letter-spacing: -.02em;
+  transition: color .2s;
+}
+.ep-row:hover .ep-row-num { color: var(--blue-dim); }
+.ep-row-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.ep-row-title {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 1.15;
+  margin-bottom: 8px;
+  transition: color .2s;
+}
+.ep-row-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--mid);
+  font-weight: 300;
+  max-width: 600px;
+}
+.ep-row-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.ep-play-btn {
+  width: 48px; height: 48px;
+  background: var(--navy);
+  border: 1.5px solid var(--rule);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .2s, border-color .2s;
+  margin-top: 4px;
+}
+.ep-row:hover .ep-play-btn { background: var(--blue); border-color: var(--blue); }
+
+/* ════════════════════════════════════════════
+   ASK A QUESTION PAGE
+════════════════════════════════════════════ */
+.ask-layout {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 60px 32px 80px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 64px;
+  align-items: start;
+}
+.ask-form-wrap {}
+.ask-intro-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ask-intro-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 2px;
+  background: var(--blue);
+}
+.ask-form-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 44px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.ask-form-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+.form-row { margin-bottom: 20px; }
+.form-row label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin-bottom: 7px;
+}
+.form-input {
+  width: 100%;
+  background: var(--off);
+  border: 1.5px solid var(--rule);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 14px;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color .2s;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.form-input:focus { border-color: var(--blue); background: var(--white); }
+.form-textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.6;
+}
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6e7f' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.form-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.form-check {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--rule);
+  background: var(--off);
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: var(--blue);
+}
+.form-check-label {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.4;
+}
+.submit-btn {
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.submit-btn:hover { background: var(--blue); transform: translateY(-1px); }
+.submit-btn .arrow { transition: transform .2s; }
+.submit-btn:hover .arrow { transform: translateX(4px); }
+
+/* Success state */
+.form-success {
+  display: none;
+  background: var(--off);
+  border: 1.5px solid var(--blue);
+  padding: 32px;
+  text-align: center;
+}
+.form-success.show { display: block; }
+.fs-icon { font-size: 40px; margin-bottom: 12px; }
+.fs-title {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.fs-sub { font-size: 14px; color: var(--mid); font-weight: 300; line-height: 1.6; }
+
+/* Ask sidebar */
+.ask-sidebar {}
+.ask-sidebar-card {
+  background: var(--navy);
+  padding: 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.ask-sidebar-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--blue);
+}
+.asc-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.asc-title {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.asc-body {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  font-weight: 300;
+  line-height: 1.6;
+}
+.asc-list {
+  margin-top: 14px;
+  padding-left: 0;
+  list-style: none;
+}
+.asc-list li {
+  font-size: 12.5px;
+  color: rgba(255,255,255,.6);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.asc-list li::before { content: '→'; color: var(--blue); font-size: 11px; }
+
+/* ════════════════════════════════════════════
+   ABOUT PAGE
+════════════════════════════════════════════ */
+.about-layout {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 64px 32px 80px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 72px;
+  align-items: start;
+}
+.host-photo-wrap {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+.host-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Blueprint silhouette placeholder */
+.host-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, var(--navy-lt) 0%, var(--navy) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.host-avatar-icon {
+  width: 100px; height: 100px;
+  border: 2px solid rgba(26,173,240,.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  color: rgba(26,173,240,.4);
+}
+.host-photo-caption {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+  text-align: center;
+}
+.host-photo-border {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 40px; height: 40px;
+  border-top: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+}
+.host-photo-border-bl {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  width: 40px; height: 40px;
+  border-bottom: 2px solid var(--blue);
+  border-left: 2px solid var(--blue);
+}
+.host-name-plate {
+  background: var(--blue);
+  padding: 14px 20px;
+  margin-top: 0;
+}
+.hnp-name {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: .04em;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.hnp-role {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+  margin-top: 2px;
+}
+.host-socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.social-btn {
+  flex: 1;
+  background: var(--off);
+  border: 1.5px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding: 9px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.social-btn:hover { background: var(--blue-dim); border-color: var(--blue); color: var(--blue-dk); }
+
+/* About content */
+.about-content {}
+.about-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.about-eyebrow::before {
+  content: ''; display: inline-block;
+  width: 20px; height: 2px; background: var(--blue);
+}
+.about-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 52px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: .95;
+  margin-bottom: 28px;
+}
+.about-body p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--charcoal);
+  font-weight: 300;
+  margin-bottom: 18px;
+}
+.about-body p strong { color: var(--navy); font-weight: 600; }
+.about-body p em { color: var(--blue-dk); font-style: normal; font-weight: 500; }
+
+.about-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 36px 0;
+}
+
+.credentials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0;
+}
+.cred-card {
+  border: 1.5px solid var(--rule);
+  padding: 20px;
+  border-top: 3px solid var(--blue);
+}
+.cred-icon { font-size: 22px; margin-bottom: 10px; }
+.cred-title {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.cred-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mid);
+  font-weight: 300;
+}
+
+.show-mission {
+  background: var(--navy);
+  padding: 32px;
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.show-mission::before {
+  content: '"';
+  position: absolute;
+  right: 12px; top: -20px;
+  font-family: var(--cond);
+  font-size: 160px;
+  color: rgba(26,173,240,.07);
+  line-height: 1;
+}
+.sm-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+.sm-quote {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .02em;
+  color: var(--white);
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* ════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════ */
+.footer {
+  background: var(--ink);
+  padding: 56px 32px 32px;
+}
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.footer-logo-col {}
+.fl-name {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: .04em;
+  color: var(--white);
+}
+.fl-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-top: 3px;
+}
+.fl-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+.footer-col-title {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li {
+  margin-bottom: 9px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,.4);
+  transition: color .2s;
+  cursor: pointer;
+}
+.footer-links a:hover { color: var(--white); }
+.footer-bottom {
+  max-width: var(--max);
+  margin: 24px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.2);
+}
+.footer-platforms {
+  display: flex;
+  gap: 8px;
+}
+.fp-link {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+  padding: 5px 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.fp-link:hover { color: var(--blue); border-color: var(--blue); }
+
+/* ════════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .5s ease both; }
+.delay-1 { animation-delay: .1s; }
+.delay-2 { animation-delay: .2s; }
+.delay-3 { animation-delay: .3s; }
+.delay-4 { animation-delay: .4s; }
+.delay-5 { animation-delay: .5s; }
+
+/* ════════════════════════════════════════════
+   UTILITY
+════════════════════════════════════════════ */
+.mt-64 { margin-top: 64px; }
+.mt-48 { margin-top: 48px; }
+.section-pad { padding: 64px 0; }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-card { max-width: 480px; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .ep-grid { grid-template-columns: 1fr 1fr; }
+  .about-layout { grid-template-columns: 1fr; }
+  .host-photo-wrap { position: relative; top: auto; max-width: 300px; }
+  .swag-grid { grid-template-columns: repeat(2,1fr); }
+  .swag-inner { grid-template-columns: 1fr; }
+  .swag-badge { display: none; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .ask-layout { grid-template-columns: 1fr; }
+  .newsletter-inner { grid-template-columns: 1fr; }
+  .nl-form { flex-wrap: wrap; }
+  .nl-input { width: 100%; }
+  .credentials-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .hero-inner { padding: 48px 24px; }
+  .ep-grid { grid-template-columns: 1fr; }
+  .swag-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .ep-row { grid-template-columns: 60px 1fr; }
+  .ep-play-btn { display: none; }
+  .wrap { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')" style="gap:0;padding:4px 0;">
+      <img src="data:image/png;base64,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" alt="The Planning Desk" style="height:44px;width:auto;display:block;object-fit:contain;border-radius:4px;" />
+    </div>
+    <div class="nav-links">
+      <span class="nav-link active" data-page="home" onclick="showPage('home')">Home</span>
+      <span class="nav-link" data-page="episodes" onclick="showPage('episodes')">Episodes</span>
+      <span class="nav-link" data-page="ask" onclick="showPage('ask')">Ask a Question</span>
+      <span class="nav-link" data-page="about" onclick="showPage('about')">About</span>
+      <span class="nav-link nav-cta" onclick="showPage('ask')">Submit Question →</span>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div style="padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.08);">
+    <img src="data:image/png;base64,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" alt="The Planning Desk" style="height:36px;width:auto;display:block;object-fit:contain;border-radius:3px;" />
+  </div>
+  <span class="nav-link" onclick="showPage('home');toggleMenu()">Home</span>
+  <span class="nav-link" onclick="showPage('episodes');toggleMenu()">Episodes</span>
+  <span class="nav-link" onclick="showPage('ask');toggleMenu()">Ask a Question</span>
+  <span class="nav-link" onclick="showPage('about');toggleMenu()">About</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="fade-up">
+        <div class="hero-eyebrow">The Manufacturing Planning Podcast</div>
+        <div class="hero-title">The<br/><span>Planning</span><br/>Desk</div>
+        <div class="hero-tagline">Where production planners, schedulers, and supply chain leaders get <strong>real talk</strong> on the act before manufACTure — no vendor pitch, no hype.</div>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('episodes')">Browse Episodes →</button>
+          <button class="btn-outline" onclick="showPage('ask')">Ask the Host</button>
+        </div>
+      </div>
+      <div class="hero-card fade-up delay-3">
+        <div class="hc-label">🎙 Latest Episode</div>
+        <div class="hc-ep">Season 1 · Episode 08</div>
+        <div class="hc-title">Where Quality Meets Planning: Lessons from Regulated Manufacturing</div>
+        <div class="hc-desc">Tyler sits down with special guest Justin Straub to explore how quality and planning drive material flow in aerospace, defense, and medical manufacturing — compliance, traceability, supplier qualification, and lessons every manufacturer can borrow.</div>
+        <div class="hc-play" onclick="window.open('https://ThePlanningDesk.podbean.com/e/s1ep08-where-quality-meets-planning-lessons-from-regulated-manufacturing-feat-justin-straub/','_blank')" style="cursor:pointer;">
+          <div class="play-btn">▶</div>
+          <div class="play-meta">
+            <strong>Listen Now</strong>
+            Feat. Justin Straub · All platforms
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms -->
+  <div class="platforms">
+    <span class="platforms-label">Listen on</span>
+    <span class="platform-badge">Spotify</span>
+    <span class="platform-badge">Apple Podcasts</span>
+    <span class="platform-badge">Google Podcasts</span>
+    <span class="platform-badge">Amazon Music</span>
+    <span class="platform-badge">iHeart Radio</span>
+    <span class="platform-badge">RSS</span>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box fade-up delay-1">
+      <div class="stat-n">8</div>
+      <div class="stat-l">Episodes Published</div>
+    </div>
+    <div class="stat-box fade-up delay-2">
+      <div class="stat-n">50+</div>
+      <div class="stat-l">Monthly Listeners</div>
+    </div>
+    <div class="stat-box fade-up delay-3">
+      <div class="stat-n">2</div>
+      <div class="stat-l">Industry Guests</div>
+    </div>
+    <div class="stat-box fade-up delay-4">
+      <div class="stat-n">5.0★</div>
+      <div class="stat-l">Apple Podcasts · 5 Ratings</div>
+    </div>
+  </div>
+
+  <!-- Featured Episodes -->
+  <div style="padding: 64px 32px 0;">
+    <div class="wrap" style="max-width:1160px;margin:0 auto;padding:0;">
+      <div class="section-hdr">
+        <span class="section-label">Featured</span>
+        <span class="section-title">Recent Episodes</span>
+        <span class="section-rule"></span>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 32px 64px;">
+    <div class="ep-grid" style="max-width:1160px;margin:0 auto;">
+      <div class="ep-card" onclick="showPage('episodes')">
+        <div class="ep-num">S1 · Ep 08 · Latest</div>
+        <div class="ep-title-sm">Where Quality Meets Planning: Lessons from Regulated Manufacturing</div>
+        <div class="ep-desc">Guest Justin Straub on how quality and planning drive material flow in aerospace, defense, and medical manufacturing — compliance, traceability, and supplier qualification.</div>
+        <div class="ep-tags-row">
+          <span class="ep-tag">Quality</span><span class="ep-tag">Aerospace</span><span class="ep-tag">Guest</span>
+        </div>
+      </div>
+      <div class="ep-card" onclick="showPage('episodes')">
+        <div class="ep-num">S1 · Ep 07 · Jun 2026</div>
+        <div class="ep-title-sm">Digital Transformation: AI Agents, Digital Twins &amp; Paperless ERP</div>
+        <div class="ep-desc">Where AI scheduling actually is in 2026, three real proof-of-concept stories, and an honest look at the risks and opportunities every planning leader needs to understand.</div>
+        <div class="ep-tags-row">
+          <span class="ep-tag">AI</span><span class="ep-tag">Digital Twins</span><span class="ep-tag">Paperless ERP</span>
+        </div>
+      </div>
+      <div class="ep-card" onclick="showPage('episodes')">
+        <div class="ep-num">S1 · Ep 06 · May 24, 2026</div>
+        <div class="ep-title-sm">The People Side: Communication Across Planning, Engineering &amp; Quality</div>
+        <div class="ep-desc">The cross-functional communication that makes or breaks execution — how planning connects with engineering and quality to drive results.</div>
+        <div class="ep-tags-row">
+          <span class="ep-tag">Communication</span><span class="ep-tag">Cross-Functional</span><span class="ep-tag">Quality</span>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1160px;margin:16px auto 0;text-align:right;">
+      <button class="btn-primary" onclick="showPage('episodes')" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue);font-size:10px;">View All Episodes →</button>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="newsletter">
+    <div class="newsletter-inner">
+      <div>
+        <div class="nl-title">Stay on the Shop Floor.<br/>Never Miss an Episode.</div>
+        <div class="nl-sub">Planning insights, episode drops, and exclusive listener resources — no fluff.</div>
+      </div>
+      <div>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="your@email.com" id="nlEmail"/>
+          <button class="nl-btn" onclick="subscribeNL()">Subscribe →</button>
+        </div>
+        <div id="nlConfirm" style="font-family:var(--mono);font-size:11px;color:var(--blue);margin-top:10px;display:none;">✓ You're on the list. Welcome to the desk.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo-col">
+        <div class="fl-name">The Planning Desk</div>
+        <div class="fl-tag">The ACT before manufACTure</div>
+        <div class="fl-desc">Hosted by Tyler Grefe — Planning &amp; Scheduling Manager with 12+ years across aerospace, defense, medical, and industrial manufacturing. Real talk, no hype.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('episodes')">Episodes</a></li>
+          <li><a onclick="showPage('ask')">Ask a Question</a></li>
+          <li><a onclick="showPage('about')">About the Host</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Listen On</div>
+        <ul class="footer-links">
+          <li><a>Spotify</a></li>
+          <li><a>Apple Podcasts</a></li>
+          <li><a>Google Podcasts</a></li>
+          <li><a>Amazon Music</a></li>
+          <li><a>RSS Feed</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a onclick="window.open('https://www.linkedin.com/in/TylerGrefe','_blank')">LinkedIn</a></li>
+          <li><a>Twitter / X</a></li>
+          <li><a>YouTube</a></li>
+          <li><a>Newsletter</a></li>
+          <li><a onclick="window.location.href='mailto:theplanningdesk25@gmail.com'">Contact / Guest Inquiry</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 The Planning Desk · All rights reserved</div>
+      <div class="footer-platforms">
+        <span class="fp-link">Privacy</span>
+        <span class="fp-link">Terms</span>
+        <span class="fp-link">Media Kit</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EPISODES PAGE
+══════════════════════════════════════════ -->
+<div id="page-episodes" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="ph-eyebrow">All Episodes</div>
+      <div class="ph-title">The Archive</div>
+      <div class="ph-sub">Every episode of The Planning Desk — practical, honest, and built for the people who make manufacturing work.</div>
+    </div>
+  </div>
+  <div class="episodes-list">
+
+    <!-- EP08 — Latest -->
+    <div class="ep-row fade-up">
+      <div class="ep-row-num">08</div>
+      <div>
+        <div class="ep-row-badge">Latest · Season 1 · Guest: Justin Straub</div>
+        <div class="ep-row-title">Where Quality Meets Planning: Lessons from Regulated Manufacturing</div>
+        <div class="ep-row-desc">Tyler sits down with special guest Justin Straub to explore how quality and planning drive material flow in aerospace, defense, and medical manufacturing. Compliance, traceability, supplier qualification, and the lessons every manufacturer can borrow from the industries that had to get it right first.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Quality</span><span class="ep-tag">Aerospace</span><span class="ep-tag">Defense</span><span class="ep-tag">Medical</span><span class="ep-tag">Traceability</span><span class="ep-tag">Guest</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://www.podbean.com/media/share/pb-xrmzh-1b17876" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/s1ep08-where-quality-meets-planning-lessons-from-regulated-manufacturing-feat-justin-straub/','_blank')">▶</div>
+    </div>
+
+    <!-- EP07 -->
+    <div class="ep-row fade-up">
+      <div class="ep-row-num">07</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · Jun 1, 2026</div>
+        <div class="ep-row-title">Digital Transformation: AI Agents, Digital Twins &amp; Paperless ERP</div>
+        <div class="ep-row-desc">Where AI scheduling actually is in 2026, three real proof-of-concept stories from the shop floor, and an honest look at the risks and opportunities every planning leader needs to understand before making a move.</div>
+        <div class="ep-row-tags"><span class="ep-tag">AI</span><span class="ep-tag">Digital Twins</span><span class="ep-tag">Paperless ERP</span><span class="ep-tag">Planning Agents</span><span class="ep-tag">Risk vs. Opportunity</span></div>
+        <div style="margin-top:14px;">
+          <iframe src="https://www.podbean.com/player-v2/?i=k9ssn-1ad9219&square=1&share=1&download=1&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&btn-skin=7" allowfullscreen="" style="border:none;width:100%;height:150px;" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/s1e7-digital-transformation-ai-agents-digital-twins-paperless-erp/','_blank')">▶</div>
+    </div>
+
+    <!-- EP06 -->
+    <div class="ep-row fade-up delay-1">
+      <div class="ep-row-num">06</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · May 24, 2026</div>
+        <div class="ep-row-title">The People Side: Communication Across Planning, Engineering &amp; Quality</div>
+        <div class="ep-row-desc">Clear and concise communication across planning, engineering, and quality — the cross-functional conversations that make or break execution on the shop floor.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Communication</span><span class="ep-tag">Cross-Functional</span><span class="ep-tag">Engineering</span><span class="ep-tag">Quality</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/ddaei7jz9fghdvvq/The_Planning_Desk_Episode_68upbh.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://www.podbean.com/ew/pb-9bjzk-1ad0766','_blank')">▶</div>
+    </div>
+
+    <!-- EP05 — Latest -->
+    <div class="ep-row fade-up delay-1">
+      <div class="ep-row-num">05</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · 25 min · Mar 22, 2026</div>
+        <div class="ep-row-title">On Forecast and the Use of AI</div>
+        <div class="ep-row-desc">We discuss forecasting in manufacturing and how you could introduce AI into your organization — practical guidance on improving forecast accuracy and making your planning smarter.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Forecasting</span><span class="ep-tag">AI</span><span class="ep-tag">Demand Planning</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/iyrwtskvnzkvxv34/The_Planning_Desk_Episode_5amnri.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/the-planning-desk-the-act-before-manufacturing-on-forecast-and-the-use-of-ai/','_blank')">▶</div>
+    </div>
+
+    <!-- EP04 -->
+    <div class="ep-row fade-up delay-1">
+      <div class="ep-row-num">04</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · 37 min · Jan 25, 2026</div>
+        <div class="ep-row-title">Load and Capacity: The Balancing Act</div>
+        <div class="ep-row-desc">Guest Matt Stewart, Site Manager at a Twin Cities manufacturing company, brings a unique take on load and capacity — the challenges that come up and the P&amp;L impact when load and capacity fall out of alignment.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Capacity Planning</span><span class="ep-tag">Load</span><span class="ep-tag">Bottlenecks</span><span class="ep-tag">Guest: Matt Stewart</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/czydq3benfz25yye/The_Planning_Desk_Episode_49aq7y.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/s1ep04-load-and-capacity-the-balancing-act/','_blank')">▶</div>
+    </div>
+
+    <!-- EP03 -->
+    <div class="ep-row fade-up delay-2">
+      <div class="ep-row-num">03</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · 35 min · Jan 11, 2026</div>
+        <div class="ep-row-title">The Role of the Planner: The Unsung Hero of the Shop Floor</div>
+        <div class="ep-row-desc">Everything from Standard of Work for planners to the right KPIs for the department — and how to get your planning team to be proactive instead of reactive.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Planners</span><span class="ep-tag">KPIs</span><span class="ep-tag">Standard of Work</span><span class="ep-tag">Proactive Planning</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/vy4gg72t7grtu9yt/The_Planning_Desk_Episode_3bjw1v.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/s1ep03-the-role-of-the-planner-the-unsung-hero-of-the-shop-floor/','_blank')">▶</div>
+    </div>
+
+    <!-- EP02 -->
+    <div class="ep-row fade-up">
+      <div class="ep-row-num">02</div>
+      <div>
+        <div class="ep-row-badge">Season 1 · 28 min · Jan 5, 2026</div>
+        <div class="ep-row-title">From Whiteboards to ERP: The Evolution of Planning Tools</div>
+        <div class="ep-row-desc">Tracing the evolution of manufacturing planning — from manual boards and spreadsheets to ERP, analytics, and emerging AI tools. Where most manufacturers get stuck, what digital maturity really looks like, and how modern planning systems unlock visibility, control, and scalability.</div>
+        <div class="ep-row-tags"><span class="ep-tag">ERP</span><span class="ep-tag">Digital Transformation</span><span class="ep-tag">Planning Tools</span><span class="ep-tag">AI</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/an8p5mugms7pim9d/The_Planning_Desk_Episode_297k07.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/from-whiteboards-to-erp-the-evolution-of-planning-tools/','_blank')">▶</div>
+    </div>
+
+    <!-- EP01 -->
+    <div class="ep-row fade-up delay-1">
+      <div class="ep-row-num">01</div>
+      <div>
+        <div class="ep-row-badge">Pilot · Season 1 · 19 min · Jan 5, 2026</div>
+        <div class="ep-row-title">The Backbone of Manufacturing: Why Planning Matters</div>
+        <div class="ep-row-desc">Why manufacturing success is won or lost long before a part reaches the shop floor. How effective planning shifts organizations from constant firefighting to controlled execution — and why planning is the true backbone of high-performing manufacturing operations.</div>
+        <div class="ep-row-tags"><span class="ep-tag">Introduction</span><span class="ep-tag">Strategy</span><span class="ep-tag">Planning Foundation</span></div>
+        <div style="margin-top:14px;">
+          <audio controls style="width:100%;height:36px;accent-color:var(--blue);">
+            <source src="https://mcdn.podbean.com/mf/web/vkua4a7c59zcicue/The_Planning_Desk_Episode_16w7ge.mp3" type="audio/mpeg"/>
+          </audio>
+        </div>
+      </div>
+      <div class="ep-play-btn" onclick="window.open('https://ThePlanningDesk.podbean.com/e/the-backbone-of-manufacturing-why-planning-matter/','_blank')">▶</div>
+    </div>
+
+    <!-- Subscribe CTA -->
+    <div style="margin-top:48px;background:var(--navy);padding:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Never Miss an Episode</div>
+        <div style="font-family:var(--cond);font-weight:800;font-size:26px;letter-spacing:.04em;text-transform:uppercase;color:var(--white);">Subscribe on Your Platform</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:300;margin-top:6px;">New episodes drop regularly. Follow on your favorite podcast app.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="add-btn" style="padding:12px 18px;" onclick="window.open('https://ThePlanningDesk.podbean.com','_blank')">Podbean</button>
+        <button class="add-btn" style="padding:12px 18px;">Spotify</button>
+        <button class="add-btn" style="padding:12px 18px;">Apple Podcasts</button>
+        <button class="add-btn" style="padding:12px 18px;" onclick="window.open('https://feed.podbean.com/ThePlanningDesk/feed.xml','_blank')">RSS Feed</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ASK A QUESTION PAGE
+══════════════════════════════════════════ -->
+<div id="page-ask" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="ph-eyebrow">Listener Questions</div>
+      <div class="ph-title">Ask the Desk</div>
+      <div class="ph-sub">Got a planning challenge, topic request, or burning question from the shop floor? Drop it here — the best questions get answered on-air.</div>
+    </div>
+  </div>
+
+  <div class="ask-layout">
+    <!-- Form -->
+    <div class="ask-form-wrap">
+      <div class="ask-intro-label">Submit Your Question</div>
+      <div class="ask-form-title">What's on<br/>Your Mind?</div>
+      <div class="ask-form-sub">Every question is read personally. The sharpest, most relevant questions get featured in an upcoming episode — with your name and company (if you'd like) called out on air.</div>
+
+      <div id="askForm">
+        <div class="form-row">
+          <label>Your Name</label>
+          <input class="form-input" type="text" placeholder="First and last name" id="askName"/>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-row">
+            <label>Company</label>
+            <input class="form-input" type="text" placeholder="Your organization" id="askCompany"/>
+          </div>
+          <div class="form-row">
+            <label>Your Role</label>
+            <input class="form-input" type="text" placeholder="Job title" id="askRole"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Industry</label>
+          <select class="form-input form-select" id="askIndustry">
+            <option value="">Select your industry</option>
+            <option>Automotive</option>
+            <option>Aerospace &amp; Defense</option>
+            <option>Medical Devices</option>
+            <option>Consumer Goods</option>
+            <option>Industrial Equipment</option>
+            <option>Electronics</option>
+            <option>Food &amp; Beverage</option>
+            <option>Pharmaceutical</option>
+            <option>Other Manufacturing</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Topic Area</label>
+          <select class="form-input form-select" id="askTopic">
+            <option value="">What's this about?</option>
+            <option>AI &amp; Technology in Planning</option>
+            <option>Production Scheduling</option>
+            <option>Demand Planning &amp; Forecasting</option>
+            <option>ERP &amp; Systems</option>
+            <option>S&amp;OP Process</option>
+            <option>Supplier Management</option>
+            <option>Digital Twins</option>
+            <option>Career &amp; Professional Development</option>
+            <option>Guest Request</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Your Question</label>
+          <textarea class="form-input form-textarea" placeholder="Be as specific as you like. Real situations make the best questions — the messier and more complex, the better." id="askQuestion"></textarea>
+        </div>
+        <div class="form-check-row">
+          <input type="checkbox" class="form-check" id="askAir" checked/>
+          <label class="form-check-label" for="askAir">I'm okay with my name and company being mentioned on-air if this question is featured.</label>
+        </div>
+        <div class="form-check-row">
+          <input type="checkbox" class="form-check" id="askNewsletter"/>
+          <label class="form-check-label" for="askNewsletter">Add me to the Planning Desk newsletter for episode drops and exclusive content.</label>
+        </div>
+        <button class="submit-btn" onclick="submitQuestion()">
+          Send to the Desk <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <div class="form-success" id="askSuccess">
+        <div class="fs-icon">📋</div>
+        <div class="fs-title">Question Received!</div>
+        <div class="fs-sub">Thanks for sending it in. Every question gets read personally.<br/>If yours makes it to air, you'll hear your name on the next episode drop.<br/>Stay tuned — and keep planning.</div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="ask-sidebar">
+      <div class="ask-sidebar-card">
+        <div class="asc-label">What makes a great question?</div>
+        <div class="asc-title">We Love the Hard Ones</div>
+        <div class="asc-body">The questions that get featured are the ones that feel too specific to answer — the ones that make you think "nobody else will get this." They will.</div>
+        <ul class="asc-list">
+          <li>Real situations from the floor — not hypotheticals</li>
+          <li>Specific constraints and context included</li>
+          <li>Questions with no obvious "right answer"</li>
+          <li>Cross-functional tensions and trade-offs</li>
+          <li>Technology decisions with real stakes</li>
+        </ul>
+      </div>
+      <div class="ask-sidebar-card">
+        <div class="asc-label">Want to be a guest?</div>
+        <div class="asc-title">Pitch Yourself</div>
+        <div class="asc-body">If you've done something worth talking about in planning, scheduling, or supply chain — an implementation story, a career pivot, a failure that taught you everything — use the form to pitch a guest appearance. No vendor pitches.</div>
+      </div>
+      <div class="ask-sidebar-card">
+        <div class="asc-label">Recent on-air questions</div>
+        <div class="asc-title">From the Listener Queue</div>
+        <ul class="asc-list">
+          <li>"How do you handle a planner who sandbagged capacity for three years?"</li>
+          <li>"What's the right span of control for a scheduling team at 400 SKUs?"</li>
+          <li>"Is APS dead or just misunderstood?"</li>
+          <li>"How do you recover S&amp;OP credibility after a bad quarter?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="ph-eyebrow">About the Host</div>
+      <div class="ph-title">Tyler Grefe</div>
+      <div class="ph-sub">12+ years at the planning desk — from Army logistics and the shop floor to enterprise SIOP across five manufacturing sites.</div>
+    </div>
+  </div>
+
+  <div class="about-layout">
+    <!-- Photo col -->
+    <div class="host-photo-wrap">
+      <div class="host-photo">
+        <div class="host-photo-placeholder">
+          <div class="host-avatar-icon">👤</div>
+          <div class="host-photo-caption">Tyler Grefe<br/>Photo Coming Soon</div>
+        </div>
+        <div class="host-photo-border"></div>
+        <div class="host-photo-border-bl"></div>
+      </div>
+      <div class="host-name-plate">
+        <div class="hnp-name">Tyler W. Grefe</div>
+        <div class="hnp-role">Planning &amp; Scheduling Manager · Host, The Planning Desk</div>
+      </div>
+      <div class="host-socials">
+        <div class="social-btn" onclick="window.open('https://www.linkedin.com/in/TylerGrefe','_blank')">LinkedIn</div>
+        <div class="social-btn" onclick="window.location.href='mailto:theplanningdesk25@gmail.com'">Email</div>
+      </div>
+
+      <!-- Quick facts card -->
+      <div style="margin-top:20px;border:1.5px solid var(--rule);padding:20px;">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;">Quick Facts</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Based In</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;">Otsego, MN</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Experience</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;">12+ Years</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Sites Managed</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;">5 Facilities</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Revenue Scope</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;">$100M+</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Military</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;">US Army · 92A</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.08em;">Education</span>
+            <span style="font-family:var(--cond);font-weight:700;font-size:14px;color:var(--navy);letter-spacing:.04em;text-align:right;">BS · Purdue Global</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content col -->
+    <div class="about-content">
+      <div class="about-eyebrow">The Story</div>
+      <div class="about-title">From the<br/>Shop Floor Up</div>
+
+      <div class="about-body">
+        <p><strong>Tyler Grefe didn't start behind a desk.</strong> He started in the Army — eight years as an Automated Logistics Specialist in the U.S. Army Reserves, where he learned something that still shapes the way he works every day: there is always more than one way to get to the same solution. That mindset — adaptable, mission-focused, and resourceful under pressure — followed him out of uniform and onto the manufacturing floor.</p>
+
+        <p>From shipping and receiving at his first plant job to managing enterprise demand-to-capacity planning across five manufacturing sites at Chandler Industries, Tyler's career has been a deliberate climb through every layer of the planning function. He has held the roles, debugged the systems, and made the calls — at <em>Arconic (formerly Remmele Engineering)</em>, <em>Curtiss-Wright</em>, <em>Graco</em>, <em>Abelconn</em>, and now across a $100M+ multi-site operation spanning aerospace, defense, medical, and industrial manufacturing.</p>
+
+        <p><strong>The moment planning stopped being a job and became a passion?</strong> It happened at Curtiss-Wright and Abelconn — when Tyler started helping other planners understand the system. Teaching people how the pieces connected, watching the lights come on, seeing a team move from reactive to strategic. That's when he knew this wasn't just a career path. It was his calling.</p>
+
+        <p>One hard-won lesson drives a lot of what gets discussed on this show: <strong>one miss on the setup of a system can make a project fall far behind — or fail entirely — and cost a company serious money.</strong> Master data. Routing integrity. System configuration. The foundational work that nobody wants to do but everybody pays for when it's wrong. Tyler has seen it from both sides, and he doesn't let it slide in conversation.</p>
+      </div>
+
+      <hr class="about-divider"/>
+
+      <div class="credentials-grid">
+        <div class="cred-card">
+          <div class="cred-icon">🏭</div>
+          <div class="cred-title">Industry Depth</div>
+          <div class="cred-desc">Aerospace &amp; defense (Lockheed Martin, Raytheon supply chains), medical devices, industrial equipment, consumer goods. Supplier excellence awards from Lockheed Martin and Raytheon.</div>
+        </div>
+        <div class="cred-card">
+          <div class="cred-icon">⚙️</div>
+          <div class="cred-title">Technical Toolkit</div>
+          <div class="cred-desc">Epicor Kinetic, SQL, BAQ development, digital twin modeling, SIOP architecture, AI-assisted planning tools, and Claude Code for custom planning automation.</div>
+        </div>
+        <div class="cred-card">
+          <div class="cred-icon">📈</div>
+          <div class="cred-title">Proven Results</div>
+          <div class="cred-desc">40% reduction in expedites. 97% inventory accuracy. 75% past-due backlog reduction. 95% on-time delivery across 27 work centers. Built systems that eliminated manual spreadsheet dependency across entire organizations.</div>
+        </div>
+        <div class="cred-card">
+          <div class="cred-icon">🎓</div>
+          <div class="cred-title">Education &amp; Service</div>
+          <div class="cred-desc">B.S. Business Administration, Purdue University Global. U.S. Army Reserves, 92A Automated Logistics Specialist, 2008–2016. Otsego, MN.</div>
+        </div>
+      </div>
+
+      <hr class="about-divider"/>
+
+      <!-- Why the podcast -->
+      <div class="about-eyebrow" style="margin-top:0;">Why This Podcast Exists</div>
+      <div class="about-body" style="margin-top:12px;">
+        <p>Tyler launched The Planning Desk with a clear mission: to show listeners that <strong>planning doesn't have to be transactional</strong>. Too many planning teams are stuck in a reactive loop — chasing expedites, manually maintaining spreadsheets, and getting pulled into firefighting instead of strategy. It doesn't have to be that way.</p>
+
+        <p>Every episode is built around a single idea: <em>your planning function can be systematically driven</em>. When you build the right foundation — clean data, the right system setup, a structured cadence — planning transforms from a back-office function into the strategic partner that every organization says they want and almost none of them actually have.</p>
+
+        <p>The Planning Desk is for the planner who knows there's a better way but hasn't seen it modeled clearly. For the scheduler who's tired of being the last person anyone thinks to loop in. For the supply chain leader who wants to bring AI and digital transformation into their operation but needs straight talk about what actually works.</p>
+      </div>
+
+      <div class="show-mission">
+        <div class="sm-label">Tyler's Philosophy</div>
+        <div class="sm-quote">"Planning isn't just transactional — it's the strategic foundation every organization needs. My goal is to show people that when you build it right, systematically, planning becomes the competitive advantage the whole business runs on."</div>
+      </div>
+
+      <!-- Personal note -->
+      <div style="margin-top:24px;padding:24px;background:var(--off);border-left:4px solid var(--blue);">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">Outside the Desk</div>
+        <div style="font-size:14px;font-weight:300;color:var(--charcoal);line-height:1.7;">At the end of the day, Tyler is someone who puts <strong>family first</strong> — full stop. The drive, the results-orientation, the relentless goal-setting that shows up in his work and on this podcast: it all traces back to building something worth coming home to. That's the north star, and it shapes everything else.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── Page navigation ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link[data-page]').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const link = document.querySelector('.nav-link[data-page="' + id + '"]');
+  if (link) link.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Mobile menu ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── Newsletter ──
+function subscribeNL() {
+  const v = document.getElementById('nlEmail').value.trim();
+  if (!v || !v.includes('@')) { 
+    document.getElementById('nlEmail').style.borderColor = 'var(--danger)';
+    return; 
+  }
+  document.getElementById('nlConfirm').style.display = 'block';
+  document.getElementById('nlEmail').value = '';
+  document.getElementById('nlEmail').style.borderColor = '';
+}
+
+// ── Ask form ──
+function submitQuestion() {
+  const name     = document.getElementById('askName').value.trim();
+  const company  = document.getElementById('askCompany').value.trim();
+  const role     = document.getElementById('askRole').value.trim();
+  const industry = document.getElementById('askIndustry').value.trim();
+  const topic    = document.getElementById('askTopic').value.trim();
+  const question = document.getElementById('askQuestion').value.trim();
+  const onAir    = document.getElementById('askAir').checked ? 'Yes' : 'No';
+  const newsletter = document.getElementById('askNewsletter').checked ? 'Yes' : 'No';
+
+  // Validate required fields
+  let valid = true;
+  if (!name)     { document.getElementById('askName').style.borderColor     = 'var(--danger)'; valid = false; } 
+  else             document.getElementById('askName').style.borderColor     = '';
+  if (!question) { document.getElementById('askQuestion').style.borderColor = 'var(--danger)'; valid = false; } 
+  else             document.getElementById('askQuestion').style.borderColor = '';
+  if (!valid) return;
+
+  // Build mailto
+  const recipient = 'theplanningdesk25@gmail.com';
+  const subject   = encodeURIComponent('Planning Desk Question from ' + name);
+  const body      = encodeURIComponent(
+    'NAME: ' + name + '\n' +
+    'COMPANY: ' + (company || 'Not provided') + '\n' +
+    'ROLE: ' + (role || 'Not provided') + '\n' +
+    'INDUSTRY: ' + (industry || 'Not provided') + '\n' +
+    'TOPIC: ' + (topic || 'Not provided') + '\n' +
+    'OK TO MENTION ON AIR: ' + onAir + '\n' +
+    'ADD TO NEWSLETTER: ' + newsletter + '\n\n' +
+    'QUESTION:\n' + question
+  );
+
+  window.location.href = 'mailto:' + recipient + '?subject=' + subject + '&body=' + body;
+
+  // Show success state after short delay
+  setTimeout(() => {
+    document.getElementById('askForm').style.display = 'none';
+    document.getElementById('askSuccess').classList.add('show');
+  }, 500);
+}
+</script>
+</body>
+</html>
