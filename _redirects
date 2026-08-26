@@ -38,4 +38,5 @@
 /proof               /case-study.html       301
 /home                /                      301
 /index               /                      301
-/*                   /index.html            302
+# NOTE: no catch-all /* rule — unmatched paths fall through to 404.html
+# (a /* -> /index.html rule triggers Cloudflare's infinite-loop check and fails the deploy)
