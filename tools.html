@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Planning Tools | The Planning Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Nunito:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:.25s;margin:calc(-1*clamp(16px,4vw,40px)) calc(-1*clamp(12px,3vw,28px)) 18px}
+header.scrolled{border-color:var(--line);box-shadow:0 1px 2px rgba(20,24,27,.05),0 6px 16px -8px rgba(20,24,27,.12)}
+.nav{display:flex;align-items:center;gap:20px;height:70px;max-width:1140px;margin:0 auto;padding:0 clamp(18px,4vw,36px)}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.logo .nm{font-family:'Nunito';font-weight:800;color:var(--azure);font-size:19px;line-height:1}
+.logo .tg{font-family:'IBM Plex Mono';font-size:9px;color:var(--muted);margin-top:3px}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center}
+.nav-links a{font-size:14px;font-weight:400;color:var(--charcoal);text-decoration:none}
+.nav-links a:hover{color:var(--azure-deep)}
+.nav-cta{margin-left:8px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Poppins';font-weight:600;font-size:14.5px;padding:12px 20px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none}
+.btn-primary{background:var(--azure);color:#fff}
+.btn-primary:hover{background:var(--azure-deep)}
+.burger{display:none;margin-left:auto;background:none;border:0;cursor:pointer;padding:8px}
+.burger span{display:block;width:24px;height:2px;background:var(--charcoal);margin:5px 0}
+@media(max-width:860px){
+.nav-links{position:fixed;top:70px;left:0;right:0;flex-direction:column;background:#fff;border-bottom:1px solid var(--line);padding:20px 24px 26px;gap:18px;align-items:flex-start;transform:translateY(-140%);transition:.28s;margin-left:0;z-index:49}
+.nav-links.open{transform:translateY(0)}
+.burger{display:block}}
+html{color-scheme:light}
+
+  :root{
+    --azure:#18A6E6; --azure-deep:#0E83BD; --azure-tint:#E2F2FB;
+    --charcoal:#21262B; --ink:#14181B;
+    --paper:#ECEDF0; --surface:#FFFFFF; --surface-2:#F6F8FA;
+    --line:#DBDFE5; --muted:#79828B;
+    --good:#1FA971; --warn:#E0942B; --bad:#D9534F;
+    --shadow:0 1px 2px rgba(20,24,27,.04),0 14px 36px -16px rgba(20,24,27,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--paper);color:var(--charcoal);font-family:'Poppins',system-ui,sans-serif;line-height:1.55;padding:clamp(16px,4vw,40px) clamp(12px,3vw,28px);display:flex;justify-content:center}
+  .wrap{width:100%;max-width:940px;display:flex;flex-direction:column;gap:20px}
+
+  /* header */
+  header{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:13px}
+  .bname{font-family:'Nunito';font-weight:800;color:var(--azure);font-size:clamp(20px,4vw,26px);line-height:1}
+  .btag{font-family:'Nunito';font-weight:700;color:var(--charcoal);font-size:11.5px}
+  .btag .act{color:var(--azure)}
+  .endorse{margin-left:auto;font-size:11px;color:var(--muted);font-family:'IBM Plex Mono'}
+  .endorse b{color:var(--charcoal);font-weight:500}
+  .lede{color:var(--muted);font-weight:300;font-size:14.5px;max-width:64ch}
+  .lede b{color:var(--charcoal);font-weight:500}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);flex-wrap:wrap}
+  .tab{flex:1 1 180px;border:0;background:transparent;cursor:pointer;font-family:'Poppins';font-weight:500;font-size:13.5px;color:var(--muted);padding:12px 14px;border-radius:9px;transition:.18s;text-align:center}
+  .tab:hover{color:var(--charcoal)}
+  .tab.active{background:var(--azure);color:#fff;box-shadow:0 6px 14px -6px var(--azure-deep)}
+  .tab .n{font-family:'IBM Plex Mono';font-size:10px;opacity:.7;display:block}
+
+  .panel{display:none;animation:fade .3s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.panel.active{animation:none}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+  .card-h{padding:22px clamp(20px,3.5vw,32px) 0}
+  .eyebrow{font-family:'IBM Plex Mono';font-weight:500;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--azure-deep)}
+  .card-h h2{font-weight:500;font-size:clamp(19px,3.4vw,24px);margin:9px 0 4px}
+  .card-h p{color:var(--muted);font-weight:300;font-size:13.5px}
+
+  /* why box */
+  .why{margin:20px clamp(20px,3.5vw,32px) 0;background:var(--azure-tint);border:1px solid #BFE3F6;border-radius:13px;padding:16px 18px}
+  .why h3{font-size:13px;font-weight:600;color:var(--azure-deep);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+  .why p{font-size:13px;font-weight:300;color:#2c4250;line-height:1.6}
+  .why p+p{margin-top:7px}
+  .why b{font-weight:500;color:var(--charcoal)}
+
+  /* body grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,28px);padding:22px clamp(20px,3.5vw,32px) 26px}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .col-title{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+
+  .field{margin-bottom:15px}
+  .field label{display:block;font-size:13px;font-weight:500;margin-bottom:5px}
+  .field .hint{font-size:11.5px;font-weight:300;color:var(--muted);margin-bottom:7px}
+  .field input,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:'Poppins';font-size:14px;color:var(--charcoal);background:var(--surface-2);transition:.15s}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--azure);background:#fff;box-shadow:0 0 0 3px var(--azure-tint)}
+  .inline{display:flex;gap:10px}.inline .field{flex:1}
+
+  /* results */
+  .results{background:var(--surface-2);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px;align-self:start}
+  .stat{display:flex;flex-direction:column}
+  .stat .k{font-size:11.5px;color:var(--muted);font-weight:400}
+  .stat .v{font-family:'IBM Plex Mono';font-weight:500;color:var(--charcoal);font-size:clamp(24px,5vw,32px);line-height:1.15}
+  .stat .v small{font-size:14px;color:var(--muted)}
+  .stat.hero .v{color:var(--azure-deep)}
+  .subgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .subgrid .stat .v{font-size:19px}
+  .divider{height:1px;background:var(--line)}
+  .verdict{font-size:13px;font-weight:300;line-height:1.6;padding:12px 14px;border-radius:11px;border-left:3px solid var(--muted);background:#fff}
+  .verdict b{font-weight:600}
+  .verdict.good{border-color:var(--good)} .verdict.good b{color:var(--good)}
+  .verdict.warn{border-color:var(--warn)} .verdict.warn b{color:var(--warn)}
+  .verdict.bad{border-color:var(--bad)} .verdict.bad b{color:var(--bad)}
+
+  /* forecast table */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:0 6px 8px}
+  td{padding:3px 4px}
+  td input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 9px;font-family:'IBM Plex Mono';font-size:13px;text-align:right;background:var(--surface-2)}
+  td input:focus{outline:none;border-color:var(--azure);background:#fff}
+  .rowbtn{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 6px;line-height:1}
+  .rowbtn:hover{color:var(--bad)}
+  .addrow{margin-top:10px;border:1px dashed var(--line);background:none;color:var(--azure-deep);border-radius:9px;padding:9px;width:100%;cursor:pointer;font-family:'Poppins';font-weight:500;font-size:12.5px}
+  .addrow:hover{border-color:var(--azure);background:var(--azure-tint)}
+
+  /* how to read */
+  .howto{margin:0 clamp(20px,3.5vw,32px);padding:14px 0 22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.65}
+  .howto b{color:var(--charcoal);font-weight:500}
+
+  /* cta */
+  .cta{background:var(--charcoal);color:#fff;border-radius:18px;padding:clamp(22px,4vw,34px);display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .cta h3{font-family:'Nunito';font-weight:800;font-size:clamp(18px,3.5vw,23px)}
+  .cta p{color:#aeb6bd;font-weight:300;font-size:13.5px;margin-top:4px;max-width:46ch}
+  .cta button{background:var(--azure);color:#fff;border:0;border-radius:11px;padding:14px 22px;font-family:'Poppins';font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap;transition:.15s}
+  .cta button:hover{background:#fff;color:var(--azure-deep)}
+  footer{text-align:center;color:var(--muted);font-size:11px;font-family:'IBM Plex Mono'}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header id="hdr">
+  <div class="container nav">
+    <a href="index.html" class="logo" aria-label="The Planning Desk home">
+      <svg width="34" height="40" viewBox="0 0 132 156" aria-hidden="true">
+        <rect x="18" y="30" width="98" height="118" rx="11" fill="#fff" stroke="#18A6E6" stroke-width="7"/>
+        <rect x="48" y="20" width="38" height="22" rx="6" fill="#fff" stroke="#18A6E6" stroke-width="6"/>
+        <g transform="translate(31,31)"><circle r="15" fill="#18A6E6"/><circle r="6.5" fill="#fff"/>
+          <g fill="#18A6E6"><rect x="-3.5" y="-21" width="7" height="9" rx="1.5"/><rect x="-3.5" y="12" width="7" height="9" rx="1.5"/><rect x="-21" y="-3.5" width="9" height="7" rx="1.5"/><rect x="12" y="-3.5" width="9" height="7" rx="1.5"/></g></g>
+        <rect x="40" y="62" width="56" height="11" rx="5.5" fill="#21262B"/><rect x="40" y="80" width="42" height="11" rx="5.5" fill="#21262B"/><rect x="40" y="98" width="32" height="11" rx="5.5" fill="#21262B"/>
+        <polyline points="40,136 58,122 78,128 100,104" fill="none" stroke="#18A6E6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="40" cy="136" r="4.5" fill="#18A6E6"/><circle cx="58" cy="122" r="4.5" fill="#18A6E6"/><circle cx="78" cy="128" r="4.5" fill="#18A6E6"/><circle cx="100" cy="104" r="5.5" fill="#18A6E6"/>
+      </svg>
+      <div><div class="nm">The Planning Desk</div><div class="tg">planning &amp; supply chain</div></div>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="nav-links" id="navlinks">
+      <a href="index.html#ai">AI &amp; Digital</a>
+      <a href="services.html">Services</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="tools.html">Free tools</a>
+      <a href="resources.html">Resources</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="nav-cta"><span class="btn btn-primary">Book a diagnostic</span></a>
+    </nav>
+  </div>
+</header>
+
+  <p class="lede"><b>Three free tools every planner should run.</b> Plug in your own numbers. Each one shows what it means and how to read it. No spreadsheets, no setup.</p>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="carry"><span class="n">TOOL 01</span>Carrying-Cost Calculator</button>
+    <button class="tab" data-tab="safety"><span class="n">TOOL 02</span>Safety-Stock Calculator</button>
+    <button class="tab" data-tab="forecast"><span class="n">TOOL 03</span>Forecast-Accuracy Scorecard</button>
+  </nav>
+
+  <!-- ============ TOOL 01: CARRYING COST ============ -->
+  <section class="panel active" id="carry">
+    <div class="card">
+      <div class="card-h">
+        <div class="eyebrow">Tool 01</div>
+        <h2>Inventory Carrying-Cost Calculator</h2>
+        <p>What it really costs to hold the inventory sitting on your floor right now.</p>
+      </div>
+      <div class="why">
+        <h3>◆ Why this matters</h3>
+        <p>Most manufacturers track what inventory <b>costs to buy</b> but never what it <b>costs to hold</b>. Holding it ties up cash and quietly burns 18–30% of its value every year in financing, space, insurance, and obsolescence.</p>
+        <p>Every dollar of excess inventory is a dollar that can't buy materials, equipment, or growth. This tool turns that hidden drag into a number you can act on, and shows the cash you'd free by trimming the excess.</p>
+      </div>
+      <div class="grid">
+        <div>
+          <div class="col-title">Your numbers</div>
+          <div class="field"><label>Average inventory value</label><div class="hint">Typical $ value of stock on hand</div><input id="c_val" type="number" value="500000"></div>
+          <div class="inline">
+            <div class="field"><label>Cost of capital %</label><input id="c_cap" type="number" value="8"></div>
+            <div class="field"><label>Storage / space %</label><input id="c_sto" type="number" value="3"></div>
+          </div>
+          <div class="inline">
+            <div class="field"><label>Insurance & taxes %</label><input id="c_ins" type="number" value="2"></div>
+            <div class="field"><label>Obsolescence / shrink %</label><input id="c_obs" type="number" value="6"></div>
+          </div>
+          <div class="field"><label>Estimated excess inventory %</label><div class="hint">Portion you suspect is more than you need</div><input id="c_exc" type="number" value="15"></div>
+        </div>
+        <div class="results">
+          <div class="stat hero"><span class="k">Annual carrying cost</span><span class="v" id="c_annual">, </span></div>
+          <div class="subgrid">
+            <div class="stat"><span class="k">Carrying rate</span><span class="v" id="c_rate">, </span></div>
+            <div class="stat"><span class="k">Per month</span><span class="v" id="c_month">, </span></div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat"><span class="k">Cash trapped in excess stock</span><span class="v" id="c_cash">, </span></div>
+          <div class="stat"><span class="k">Yearly carrying cost on that excess</span><span class="v" id="c_save">, </span></div>
+          <div class="verdict" id="c_verdict"></div>
+        </div>
+      </div>
+      <p class="howto"><b>How to read it:</b> The <b>carrying rate</b> is the sum of your four cost drivers, anything above ~25% means holding inventory is expensive and excess is hurting you fast. <b>Cash trapped in excess stock</b> is working capital you could release by right-sizing; the line below it is the recurring carrying cost you'd stop paying every year.</p>
+    </div>
+  </section>
+
+  <!-- ============ TOOL 02: SAFETY STOCK ============ -->
+  <section class="panel" id="safety">
+    <div class="card">
+      <div class="card-h">
+        <div class="eyebrow">Tool 02</div>
+        <h2>Safety-Stock Calculator</h2>
+        <p>The right buffer to hit your service target without drowning in stock.</p>
+      </div>
+      <div class="why">
+        <h3>◆ Why this matters</h3>
+        <p>Safety stock set by gut feel is almost always wrong in <b>both</b> directions at once, too much on steady items (excess cash) and too little on volatile ones (stockouts and expedites). The fix isn't "hold more," it's holding the <b>right</b> amount per item.</p>
+        <p>This uses the statistical method that accounts for both <b>demand swings</b> and <b>lead-time swings</b>, sized to the service level you actually want. It's the number a planning system would calculate, without the planning system.</p>
+      </div>
+      <div class="grid">
+        <div>
+          <div class="col-title">Your numbers</div>
+          <div class="inline">
+            <div class="field"><label>Avg daily demand</label><div class="hint">units / day</div><input id="s_dem" type="number" value="120"></div>
+            <div class="field"><label>Demand variability</label><div class="hint">std dev, units/day</div><input id="s_dsd" type="number" value="35"></div>
+          </div>
+          <div class="inline">
+            <div class="field"><label>Avg lead time</label><div class="hint">days</div><input id="s_lt" type="number" value="14"></div>
+            <div class="field"><label>Lead-time variability</label><div class="hint">std dev, days</div><input id="s_ltsd" type="number" value="3"></div>
+          </div>
+          <div class="field"><label>Target service level</label><div class="hint">% of demand filled from stock</div>
+            <select id="s_sl">
+              <option value="0.84">80%</option>
+              <option value="1.04">85%</option>
+              <option value="1.28">90%</option>
+              <option value="1.645" selected>95%</option>
+              <option value="2.05">98%</option>
+              <option value="2.33">99%</option>
+              <option value="3.09">99.9%</option>
+            </select>
+          </div>
+        </div>
+        <div class="results">
+          <div class="stat hero"><span class="k">Recommended safety stock</span><span class="v" id="s_ss">, </span></div>
+          <div class="subgrid">
+            <div class="stat"><span class="k">Reorder point</span><span class="v" id="s_rop">, </span></div>
+            <div class="stat"><span class="k">Demand in lead time</span><span class="v" id="s_dlt">, </span></div>
+          </div>
+          <div class="verdict" id="s_verdict"></div>
+        </div>
+      </div>
+      <p class="howto"><b>How to read it:</b> <b>Safety stock</b> is the buffer held on top of expected demand. The <b>reorder point</b> is your trigger, when on-hand hits this number, place the order. Pushing service from 95% to 99% looks small but can balloon the buffer; that jump is exactly where holding cost and service trade off, and where a planner earns their keep.</p>
+    </div>
+  </section>
+
+  <!-- ============ TOOL 03: FORECAST ACCURACY ============ -->
+  <section class="panel" id="forecast">
+    <div class="card">
+      <div class="card-h">
+        <div class="eyebrow">Tool 03</div>
+        <h2>Forecast-Accuracy Scorecard</h2>
+        <p>Grade your forecast against what actually happened, and spot the bias.</p>
+      </div>
+      <div class="why">
+        <h3>◆ Why this matters</h3>
+        <p>You can't fix what you don't measure. If you don't know your forecast accuracy, you're setting inventory, capacity, and purchasing on a number you can't trust, and every downstream plan inherits the error.</p>
+        <p>This scores accuracy and, just as important, <b>bias</b>: a forecast that's consistently too high quietly builds excess and obsolescence; one that's consistently too low drives stockouts and rush freight. Enter a few periods of forecast vs. actual to see both.</p>
+      </div>
+      <div class="grid">
+        <div>
+          <div class="col-title">Forecast vs. actual</div>
+          <table><thead><tr><th>Period</th><th>Forecast</th><th>Actual</th><th></th></tr></thead>
+            <tbody id="f_body"></tbody></table>
+          <button class="addrow" id="f_add">+ Add period</button>
+        </div>
+        <div class="results">
+          <div class="stat hero"><span class="k">Forecast accuracy</span><span class="v" id="f_acc">, </span></div>
+          <div class="subgrid">
+            <div class="stat"><span class="k">MAPE (avg error)</span><span class="v" id="f_mape">, </span></div>
+            <div class="stat"><span class="k">Bias</span><span class="v" id="f_bias">, </span></div>
+          </div>
+          <div class="verdict" id="f_verdict"></div>
+          <div class="verdict" id="f_biasv"></div>
+        </div>
+      </div>
+      <p class="howto"><b>How to read it:</b> <b>Accuracy</b> is 100% minus your average percentage error (MAPE). Rough manufacturing benchmarks: <b>above 90%</b> is excellent, 80–90% good, 70–80% fair, below 70% needs work. <b>Bias</b> tells you the direction you lean, fixing a consistent bias is usually the single fastest accuracy win.</p>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div>
+      <h3>Want these run on your real data?</h3>
+      <p>We'll turn your actual numbers into a Planning Health snapshot and the two or three quick wins worth chasing first.</p>
+    </div>
+    <a class="btn btn-primary" href="contact.html" style="background:var(--azure)">Book a Planning Diagnostic →</a>
+  </div>
+
+  <footer>The Planning Desk LLC. Estimates for guidance; validate against your own data before acting.</footer>
+</div>
+
+<script>
+  // ---- tabs ----
+  const tabs=document.querySelectorAll('.tab'), panels=document.querySelectorAll('.panel');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active')); panels.forEach(p=>p.classList.remove('active'));
+    t.classList.add('active'); document.getElementById(t.dataset.tab).classList.add('active');
+  }));
+
+  const usd=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const num=n=>Math.round(n).toLocaleString('en-US');
+  const val=id=>parseFloat(document.getElementById(id).value)||0;
+  const set=(id,v)=>document.getElementById(id).textContent=v;
+
+  // ---- TOOL 01: carrying cost ----
+  function carry(){
+    const v=val('c_val'), rate=val('c_cap')+val('c_sto')+val('c_ins')+val('c_obs');
+    const annual=v*rate/100, exc=val('c_exc'), cash=v*exc/100, save=cash*rate/100;
+    set('c_annual',usd(annual)); set('c_rate',rate.toFixed(1)+'%');
+    set('c_month',usd(annual/12)); set('c_cash',usd(cash)); set('c_save',usd(save));
+    const vd=document.getElementById('c_verdict');
+    if(rate>=25){vd.className='verdict bad';vd.innerHTML=`At <b>${rate.toFixed(1)}%</b>, holding inventory is genuinely expensive. Trimming the excess would free <b>${usd(cash)}</b> in cash and stop <b>${usd(save)}/yr</b> in carrying cost.`;}
+    else if(rate>=18){vd.className='verdict warn';vd.innerHTML=`A <b>${rate.toFixed(1)}%</b> rate is typical for manufacturing, manageable, but the <b>${usd(cash)}</b> tied up in excess is real working capital you could redeploy.`;}
+    else{vd.className='verdict good';vd.innerHTML=`A <b>${rate.toFixed(1)}%</b> rate is lean. Focus on the <b>${usd(cash)}</b> sitting in excess stock, that's your fastest cash release.`;}
+  }
+  ['c_val','c_cap','c_sto','c_ins','c_obs','c_exc'].forEach(id=>document.getElementById(id).addEventListener('input',carry));
+
+  // ---- TOOL 02: safety stock ----
+  function safety(){
+    const d=val('s_dem'), dsd=val('s_dsd'), lt=val('s_lt'), ltsd=val('s_ltsd'), z=val('s_sl');
+    const ss=z*Math.sqrt(lt*dsd*dsd + d*d*ltsd*ltsd);
+    const dlt=d*lt, rop=dlt+ss;
+    set('s_ss',num(ss)+' '); set('s_rop',num(rop)); set('s_dlt',num(dlt));
+    const slText=document.getElementById('s_sl').selectedOptions[0].text;
+    const ratio=dlt>0?ss/dlt:0;
+    const vd=document.getElementById('s_verdict');
+    if(ratio>0.6){vd.className='verdict warn';vd.innerHTML=`Your buffer is large relative to normal demand, a sign of high variability or a long, unreliable lead time. Cutting lead-time swings shrinks this faster than anything else. Sized for <b>${slText}</b> service.`;}
+    else{vd.className='verdict good';vd.innerHTML=`A healthy buffer for <b>${slText}</b> service: hold <b>${num(ss)}</b> units and reorder when on-hand reaches <b>${num(rop)}</b>.`;}
+  }
+  ['s_dem','s_dsd','s_lt','s_ltsd','s_sl'].forEach(id=>document.getElementById(id).addEventListener('input',safety));
+
+  // ---- TOOL 03: forecast accuracy ----
+  const seed=[[100,120],[150,135],[130,128],[110,95],[160,170],[140,132]];
+  const body=document.getElementById('f_body');
+  let pc=0;
+  function addRow(f='',a=''){
+    pc++; const tr=document.createElement('tr'); const p=pc;
+    tr.innerHTML=`<td style="font-family:'IBM Plex Mono';color:var(--muted);font-size:12px;padding-left:8px">P${p}</td>
+      <td><input type="number" class="ff" value="${f}"></td>
+      <td><input type="number" class="fa" value="${a}"></td>
+      <td><button class="rowbtn" title="remove">✕</button></td>`;
+    tr.querySelector('.rowbtn').addEventListener('click',()=>{tr.remove();forecast();});
+    tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',forecast));
+    body.appendChild(tr);
+  }
+  function forecast(){
+    const rows=[...body.querySelectorAll('tr')]; let ape=0,n=0,sumErr=0,sumA=0;
+    rows.forEach(r=>{
+      const f=parseFloat(r.querySelector('.ff').value), a=parseFloat(r.querySelector('.fa').value);
+      if(!isNaN(f)&&!isNaN(a)&&a!==0){ape+=Math.abs(f-a)/Math.abs(a); n++; sumErr+=(f-a); sumA+=a;}
+    });
+    if(n===0){set('f_acc',', ');set('f_mape',', ');set('f_bias',', ');document.getElementById('f_verdict').className='verdict';document.getElementById('f_verdict').textContent='Enter at least one period.';document.getElementById('f_biasv').textContent='';return;}
+    const mape=ape/n*100, acc=Math.max(0,100-mape), biasPct=sumA!==0?sumErr/sumA*100:0;
+    set('f_acc',acc.toFixed(1)+'%'); set('f_mape',mape.toFixed(1)+'%');
+    set('f_bias',(biasPct>0?'+':'')+biasPct.toFixed(1)+'%');
+    const vd=document.getElementById('f_verdict');
+    if(acc>=90){vd.className='verdict good';vd.innerHTML=`<b>Excellent.</b> Tight control, protect it and push variability work to your hardest items.`;}
+    else if(acc>=80){vd.className='verdict good';vd.innerHTML=`<b>Good.</b> Solid foundation with room to refine on the volatile SKUs.`;}
+    else if(acc>=70){vd.className='verdict warn';vd.innerHTML=`<b>Fair.</b> This level of error is quietly driving both excess and stockouts.`;}
+    else{vd.className='verdict bad';vd.innerHTML=`<b>Needs work.</b> Plans built on this are unreliable, likely your single biggest planning risk.`;}
+    const bv=document.getElementById('f_biasv');
+    if(Math.abs(biasPct)<5){bv.className='verdict good';bv.innerHTML=`<b>Balanced bias.</b> No consistent over- or under-forecasting, the error is noise, not a systematic lean.`;}
+    else if(biasPct>=5){bv.className='verdict warn';bv.innerHTML=`<b>Over-forecasting (+${biasPct.toFixed(1)}%).</b> You consistently predict more than sells, a recipe for excess and obsolescence.`;}
+    else{bv.className='verdict warn';bv.innerHTML=`<b>Under-forecasting (${biasPct.toFixed(1)}%).</b> You consistently predict less than sells, driving stockouts and expediting.`;}
+  }
+  document.getElementById('f_add').addEventListener('click',()=>{addRow();});
+  seed.forEach(s=>addRow(s[0],s[1]));
+
+  carry(); safety(); forecast();
+</script>
+<script>
+const hdrEl=document.getElementById('hdr');
+addEventListener('scroll',()=>hdrEl.classList.toggle('scrolled',scrollY>10));
+const bg=document.getElementById('burger'), nl=document.getElementById('navlinks');
+if(bg){bg.addEventListener('click',()=>{const o=nl.classList.toggle('open');bg.setAttribute('aria-expanded',o);});}
+</script>
+</body>
+</html>

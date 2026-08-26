@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Diagnostic | The Planning Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Nunito:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html{color-scheme:light}
+:root{
+  --azure:#18A6E6; --azure-deep:#0E83BD; --azure-tint:#E2F2FB; --azure-glow:rgba(24,166,230,.16);
+  --charcoal:#21262B; --ink:#14181B;
+  --paper:#ECEDF0; --surface:#FFFFFF; --surface-2:#F5F7F9;
+  --line:#DBDFE5; --muted:#79828B; --muted-2:#9AA1A8;
+  --shadow-sm:0 1px 2px rgba(20,24,27,.05),0 6px 16px -8px rgba(20,24,27,.12);
+  --shadow:0 1px 2px rgba(20,24,27,.05),0 20px 44px -20px rgba(20,24,27,.22);
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:78px}
+body{background:var(--surface);color:var(--charcoal);font-family:'Poppins',system-ui,sans-serif;line-height:1.6;font-weight:300}
+h1,h2,h3,h4{font-family:'Nunito',sans-serif;line-height:1.08;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+.container{width:100%;max-width:1140px;margin:0 auto;padding:0 clamp(18px,4vw,36px)}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--azure-deep)}
+:focus-visible{outline:2.5px solid var(--azure);outline-offset:3px;border-radius:4px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Poppins';font-weight:600;font-size:14.5px;padding:14px 24px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;transition:.18s;white-space:nowrap}
+.btn-primary{background:var(--azure);color:#fff;box-shadow:0 10px 22px -10px var(--azure-deep)}
+.btn-primary:hover{background:var(--azure-deep);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--charcoal);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--azure);color:var(--azure-deep)}
+.btn-light{background:#fff;color:var(--azure-deep)}
+.btn-light:hover{background:var(--azure-tint)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:.25s}
+header.scrolled{border-color:var(--line);box-shadow:var(--shadow-sm)}
+.nav{display:flex;align-items:center;gap:20px;height:70px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo .nm{font-family:'Nunito';font-weight:800;color:var(--azure);font-size:19px;line-height:1;letter-spacing:-.01em}
+.logo .tg{font-family:'IBM Plex Mono';font-size:9px;color:var(--muted);letter-spacing:.04em;margin-top:3px}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center}
+.nav-links a{font-size:14px;font-weight:400;color:var(--charcoal);transition:.15s}
+.nav-links a:hover{color:var(--azure-deep)}
+.nav-cta{margin-left:8px}
+.burger{display:none;margin-left:auto;background:none;border:0;cursor:pointer;padding:8px}
+.burger span{display:block;width:24px;height:2px;background:var(--charcoal);margin:5px 0;transition:.2s}
+
+@media(max-width:860px){
+  .nav-links{position:fixed;top:70px;left:0;right:0;flex-direction:column;background:#fff;border-bottom:1px solid var(--line);padding:20px 24px 26px;gap:18px;align-items:flex-start;transform:translateY(-140%);transition:.28s;box-shadow:var(--shadow);margin-left:0}
+  .nav-links.open{transform:translateY(0)}
+  .nav-links .nav-cta{margin-left:0;width:100%}
+  .nav-links .btn{width:100%;justify-content:center}
+  .burger{display:block}
+}
+
+/* hero */
+.hero{padding:clamp(48px,8vw,96px) 0 clamp(56px,9vw,104px);background:
+  radial-gradient(1100px 460px at 78% -8%,var(--azure-glow),transparent 62%),
+  linear-gradient(180deg,#fff, #fbfcfd)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,64px);align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+.hero h1{font-size:clamp(36px,6.4vw,64px);font-weight:900;color:var(--ink)}
+.hero h1 .hl{color:var(--azure);position:relative;white-space:nowrap}
+.hero .sub{margin:22px 0 30px;font-size:clamp(15px,2.4vw,18.5px);color:#4a545c;max-width:38ch;font-weight:300}
+.hero .cta-row{display:flex;gap:13px;flex-wrap:wrap}
+.hero .micro{margin-top:24px;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted);letter-spacing:.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero .micro b{color:var(--charcoal);font-weight:500}
+.dotsep{width:4px;height:4px;border-radius:50%;background:var(--azure)}
+
+/* hero chart card */
+.chart-card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:22px 22px 16px;position:relative;overflow:hidden}
+.chart-card .cc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.chart-card .cc-t{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.chart-card .cc-badge{font-family:'IBM Plex Mono';font-size:10px;color:var(--azure-deep);background:var(--azure-tint);padding:4px 9px;border-radius:20px}
+.svg-chart{width:100%;height:auto;display:block}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.9s .3s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.node{opacity:0;animation:pop .4s ease forwards}
+@keyframes pop{to{opacity:1}}
+.cc-foot{display:flex;justify-content:space-between;font-family:'IBM Plex Mono';font-size:10px;color:var(--muted-2);margin-top:2px;padding:0 4px}
+
+/* section base */
+section{padding:clamp(58px,9vw,108px) 0}
+.sec-head{max-width:52ch;margin-bottom:clamp(30px,5vw,52px)}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head h2{font-size:clamp(27px,4.6vw,44px);font-weight:800;color:var(--ink);margin:12px 0 14px}
+.sec-head p{color:var(--muted);font-size:clamp(15px,2vw,17px);font-weight:300}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.draw{animation:none;stroke-dashoffset:0}.node{opacity:1;animation:none}}
+
+/* problem */
+.problem{background:var(--surface-2)}
+.pains{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.pain{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 22px;display:flex;gap:14px;align-items:flex-start}
+.pain .x{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--azure-tint);display:grid;place-items:center;color:var(--azure-deep);font-family:'Nunito';font-weight:800;font-size:15px;margin-top:2px}
+.pain p{font-size:14.5px;color:#3c454c;font-weight:300}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:760px){.svc-grid{grid-template-columns:1fr}}
+.svc{border:1px solid var(--line);border-radius:var(--r);padding:26px;background:#fff;transition:.2s;position:relative}
+.svc:hover{border-color:var(--azure);box-shadow:var(--shadow);transform:translateY(-2px)}
+.svc .tier{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.svc h3{font-size:22px;font-weight:800;margin:8px 0 6px;color:var(--ink)}
+.svc .price{font-family:'IBM Plex Mono';font-weight:500;color:var(--azure-deep);font-size:14px;margin-bottom:12px}
+.svc p{font-size:14px;color:#3c454c;font-weight:300;margin-bottom:14px}
+.svc ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.svc li{font-size:13px;color:var(--charcoal);padding-left:22px;position:relative;font-weight:300}
+.svc li::before{content:"";position:absolute;left:0;top:8px;width:11px;height:7px;border-left:2px solid var(--azure);border-bottom:2px solid var(--azure);transform:rotate(-45deg)}
+.svc.feat{background:linear-gradient(180deg,#fff,var(--azure-tint));border-color:var(--azure)}
+
+/* how it works */
+.how{background:var(--charcoal);color:#fff} .how h2,.how h4{color:#fff} .how p{color:#c2c9cf}
+.how .sec-head h2{color:#fff}.how .sec-head p{color:#aeb6bd}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:820px){.steps{grid-template-columns:repeat(2,1fr);gap:26px}}
+@media(max-width:460px){.steps{grid-template-columns:1fr}}
+.step{position:relative}
+.step .num{font-family:'IBM Plex Mono';font-size:13px;color:var(--azure);letter-spacing:.1em}
+.step .bar{height:2px;background:linear-gradient(90deg,var(--azure),transparent);margin:12px 0 16px}
+.step h4{font-size:18px;font-weight:800;margin-bottom:8px}
+.step p{font-size:13.5px;color:#a9b1b8;font-weight:300}
+
+/* outcomes */
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:760px){.out-grid{grid-template-columns:1fr}}
+.out{border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;background:var(--surface-2)}
+.out .big{font-family:'Nunito';font-weight:900;font-size:clamp(34px,5vw,46px);color:var(--azure);line-height:1;letter-spacing:-.03em}
+.out .lbl{font-weight:500;font-size:15.5px;margin:12px 0 6px;color:var(--ink)}
+.out p{font-size:13.5px;color:var(--muted);font-weight:300}
+
+/* tools */
+.tools{background:var(--surface-2)}
+.tools-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);align-items:center}
+@media(max-width:820px){.tools-inner{grid-template-columns:1fr}}
+.tool-list{display:flex;flex-direction:column;gap:12px}
+.tool-item{background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px 20px;display:flex;gap:14px;align-items:center;transition:.15s}
+.tool-item:hover{border-color:var(--azure);box-shadow:var(--shadow-sm)}
+.tool-item .ic{flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:var(--azure-tint);display:grid;place-items:center}
+.tool-item h4{font-size:15.5px;font-weight:700;color:var(--ink)}
+.tool-item p{font-size:12.5px;color:var(--muted);font-weight:300}
+
+/* brief / newsletter */
+.brief-card h2{color:#fff} .brief-card p{color:#c2c9cf} .brief-card{background:linear-gradient(120deg,var(--charcoal),#2c343b);color:#fff;border-radius:22px;padding:clamp(30px,5vw,52px);text-align:center;position:relative;overflow:hidden}
+.brief-card::after{content:"";position:absolute;inset:0;background:radial-gradient(600px 200px at 80% 0,var(--azure-glow),transparent 60%);pointer-events:none}
+.brief-card .eyebrow{color:#7fd0f4}
+.brief-card h2{font-size:clamp(24px,4vw,38px);font-weight:800;margin:12px 0 12px;color:#fff}
+.brief-card p{color:#aeb6bd;font-weight:300;max-width:50ch;margin:0 auto 26px;font-size:15px}
+.subscribe{display:flex;gap:10px;max-width:460px;margin:0 auto;position:relative;z-index:1}
+.subscribe input{flex:1;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:14px 16px;font-family:'Poppins';font-size:14px}
+.subscribe input::placeholder{color:#8b949c}
+.subscribe input:focus{outline:none;border-color:var(--azure);background:rgba(255,255,255,.13)}
+@media(max-width:480px){.subscribe{flex-direction:column}}
+.brief-note{font-family:'IBM Plex Mono';font-size:11px;color:#9aa4ac;margin-top:16px;position:relative;z-index:1}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(28px,5vw,56px);align-items:start}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr}}
+.about p{font-size:15.5px;color:#3c454c;font-weight:300;margin-bottom:16px}
+.about p b{color:var(--charcoal);font-weight:500}
+.founder{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:26px}
+.founder .ph{position:relative;overflow:hidden;width:96px;height:96px;border-radius:50%;background:var(--azure-tint);display:grid;place-items:center;font-family:'Nunito';font-weight:900;color:var(--azure-deep);font-size:30px;margin-bottom:16px;border:2px solid #fff;box-shadow:var(--shadow-sm)}
+.founder .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.founder .fn{font-family:'Nunito';font-weight:800;font-size:19px;color:var(--ink)}
+.founder .fr{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:3px 0 12px}
+.founder p{font-size:13.5px;color:#4a545c;font-weight:300}
+.tag-ph{color:var(--muted-2);font-style:italic}
+
+/* contact / book */
+.book{background:var(--surface-2)}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px);align-items:center}
+@media(max-width:820px){.book-grid{grid-template-columns:1fr}}
+.book h2{font-size:clamp(27px,4.6vw,42px);font-weight:800;color:var(--ink);margin-bottom:14px}
+.book .lede{font-size:16px;color:#3c454c;font-weight:300;margin-bottom:22px}
+.book ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.book ul li{font-size:14px;padding-left:26px;position:relative;color:var(--charcoal);font-weight:300}
+.book ul li::before{content:"";position:absolute;left:0;top:7px;width:12px;height:7px;border-left:2.5px solid var(--azure);border-bottom:2.5px solid var(--azure);transform:rotate(-45deg)}
+.form{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:var(--shadow-sm)}
+.form .f{margin-bottom:14px}
+.form label{display:block;font-size:12.5px;font-weight:500;margin-bottom:6px}
+.form input,.form textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 13px;font-family:'Poppins';font-size:14px;background:var(--surface-2)}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--azure);background:#fff;box-shadow:0 0 0 3px var(--azure-tint)}
+.form .btn{width:100%;justify-content:center;margin-top:4px}
+
+/* footer */
+footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{color:#c9d0d6} footer .nm{color:#fff} footer{padding:clamp(46px,7vw,72px) 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.foot-grid{grid-template-columns:1fr}}
+.foot-brand .nm{font-family:'Nunito';font-weight:800;color:#fff;font-size:20px}
+.foot-brand .tg{font-family:'IBM Plex Mono';font-size:11px;color:#8b949c;margin-top:6px}
+.foot-brand .tg .act{color:var(--azure)}
+.foot-col h5{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#8b949c;margin-bottom:14px;font-weight:500}
+.foot-col a{display:block;font-size:13.5px;margin-bottom:9px;color:#aeb6bd;font-weight:300;transition:.15s}
+.foot-col a:hover{color:var(--azure)}
+.foot-bar{border-top:1px solid #2a3037;padding-top:22px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'IBM Plex Mono';font-size:11px;color:#8b949c}
+.foot-bar b{color:#aeb6bd;font-weight:400}
+
+
+.page-hero{padding:clamp(44px,7vw,72px) 0 clamp(30px,5vw,44px);background:radial-gradient(900px 380px at 80% -10%,var(--azure-glow),transparent 62%),linear-gradient(180deg,#fff,#fbfcfd)}
+.page-hero h1{font-size:clamp(30px,5.4vw,52px);font-weight:900;color:var(--ink);margin-top:14px}
+.page-hero p{margin-top:14px;font-size:clamp(15px,2.2vw,17.5px);color:#4a545c;max-width:60ch;font-weight:300}
+
+.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,56px);align-items:start}
+@media(max-width:820px){.c-grid{grid-template-columns:1fr}}
+.next{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:24px;margin-top:22px}
+.next h4{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:12px}
+.next ol{margin-left:18px;display:flex;flex-direction:column;gap:9px}
+.next li{font-size:13.5px;color:#3c454c;font-weight:300}
+</style>
+</head>
+<body>
+<header id="hdr">
+  <div class="container nav">
+    <a href="index.html" class="logo" aria-label="The Planning Desk home">
+      <svg width="34" height="40" viewBox="0 0 132 156" aria-hidden="true">
+        <rect x="18" y="30" width="98" height="118" rx="11" fill="#fff" stroke="#18A6E6" stroke-width="7"/>
+        <rect x="48" y="20" width="38" height="22" rx="6" fill="#fff" stroke="#18A6E6" stroke-width="6"/>
+        <g transform="translate(31,31)"><circle r="15" fill="#18A6E6"/><circle r="6.5" fill="#fff"/>
+          <g fill="#18A6E6"><rect x="-3.5" y="-21" width="7" height="9" rx="1.5"/><rect x="-3.5" y="12" width="7" height="9" rx="1.5"/><rect x="-21" y="-3.5" width="9" height="7" rx="1.5"/><rect x="12" y="-3.5" width="9" height="7" rx="1.5"/></g></g>
+        <rect x="40" y="62" width="56" height="11" rx="5.5" fill="#21262B"/><rect x="40" y="80" width="42" height="11" rx="5.5" fill="#21262B"/><rect x="40" y="98" width="32" height="11" rx="5.5" fill="#21262B"/>
+        <polyline points="40,136 58,122 78,128 100,104" fill="none" stroke="#18A6E6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="40" cy="136" r="4.5" fill="#18A6E6"/><circle cx="58" cy="122" r="4.5" fill="#18A6E6"/><circle cx="78" cy="128" r="4.5" fill="#18A6E6"/><circle cx="100" cy="104" r="5.5" fill="#18A6E6"/>
+      </svg>
+      <div><div class="nm">The Planning Desk</div><div class="tg">planning &amp; supply chain</div></div>
+    </a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="nav-links" id="navlinks">
+      <a href="index.html#ai">AI &amp; Digital</a>
+      <a href="services.html">Services</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="tools.html">Free tools</a>
+      <a href="resources.html">Resources</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="nav-cta"><span class="btn btn-primary">Book a diagnostic</span></a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero"><div class="container">
+  <div class="eyebrow">Book a Planning Diagnostic</div>
+  <h1>See what's hiding in your plan.</h1>
+  <p>Tell us a little about your operation and the planning headache. We'll reply within one business day with a short call to scope the diagnostic. Fixed price, 2–3 weeks, fee credited toward your next project.</p>
+</div></section>
+
+<section style="padding-top:10px"><div class="container c-grid">
+
+  <div class="reveal">
+    <div class="form">
+      <div class="f"><label>Name</label><input type="text" id="cf_name" placeholder="Your name"></div>
+      <div class="f"><label>Company</label><input type="text" id="cf_co" placeholder="Company name"></div>
+      <div class="f"><label>Work email</label><input type="email" id="cf_em" placeholder="you@yourcompany.com"></div>
+      <div class="f"><label>What's the planning headache?</label><textarea rows="4" id="cf_msg" placeholder="A sentence or two is plenty."></textarea></div>
+      <button class="btn btn-primary" id="cf_send">Request my diagnostic →</button>
+      <p style="font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);margin-top:12px;text-align:center">This opens an email to theplanningdesk25@gmail.com with your details filled in.</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <h3 style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:10px">Prefer email?</h3>
+    <p style="font-size:15px;color:#3c454c;font-weight:300">Write us directly at <a href="mailto:theplanningdesk25@gmail.com" style="color:var(--azure-deep);font-weight:500">theplanningdesk25@gmail.com</a> with a line or two about your operation.</p>
+    <div class="next">
+      <h4>What happens next</h4>
+      <ol>
+        <li>We reply within one business day.</li>
+        <li>A 30-minute call to hear the headache and confirm fit.</li>
+        <li>You get a fixed-price diagnostic proposal. No obligation.</li>
+        <li>If you proceed: two ERP exports from you, a readout from us, 2–3 weeks later.</li>
+      </ol>
+    </div>
+    <div class="next">
+      <h4>Good fit check</h4>
+      <ol>
+        <li>Manufacturer or industrial distributor, roughly $5M–$150M revenue.</li>
+        <li>Planning lives mostly in spreadsheets, or in an ERP nobody trusts.</li>
+        <li>Someone in leadership wants it fixed.</li>
+      </ol>
+    </div>
+  </div>
+
+</div></section>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const s=document.getElementById('cf_send');
+  if(s){s.addEventListener('click',()=>{
+    const g=id=>document.getElementById(id).value||'';
+    const body='Name: '+g('cf_name')+'\nCompany: '+g('cf_co')+'\nEmail: '+g('cf_em')+'\n\nPlanning headache:\n'+g('cf_msg');
+    location.href='mailto:theplanningdesk25@gmail.com?subject='+encodeURIComponent('Planning Diagnostic request: '+g('cf_co'))+'&body='+encodeURIComponent(body);
+  });}
+});
+</script>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="nm">The Planning Desk</div>
+        <div class="tg">The <span class="act">ACT</span> before manuf<span class="act">ACT</span>uring</div>
+        <div class="tg" style="margin-top:14px">The Planning Desk LLC</div>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <a href="services.html#diagnostic">Planning Diagnostic</a><a href="services.html#sprint">Quick-Win Sprint</a><a href="services.html#program">Transformation Program</a><a href="services.html#fractional">Fractional Planning</a><a href="services.html#custom">Custom Applications</a>
+      </div>
+      <div class="foot-col">
+        <h5>Explore</h5>
+        <a href="how-it-works.html">How it works</a><a href="tools.html">Free tools</a><a href="resources.html">Resources</a><a href="brief.html">The Brief</a><a href="founding-client.html">Founding client</a>
+      </div>
+      <div class="foot-col">
+        <h5>Podcast</h5>
+        <a href="podcast.html">All episodes</a><a href="ask-the-desk.html">Ask the Desk</a><a href="podcast.html#guest">Be a guest</a><a href="https://www.podbean.com/media/share/pb-xrmzh-1b17876">Listen on Podbean</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© <span id="yr"></span> <b>The Planning Desk LLC</b></span>
+      <span>Planning &amp; supply chain for manufacturers</span>
+    </div>
+  </div>
+</footer>
+<script>
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10));
+const burger=document.getElementById('burger'), navlinks=document.getElementById('navlinks');
+if(burger){burger.addEventListener('click',()=>{const o=navlinks.classList.toggle('open');burger.setAttribute('aria-expanded',o);});}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
