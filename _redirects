@@ -1,42 +1,58 @@
-# Legacy podcast site paths preserved
-/episodes            /podcast.html          301
-/episodes/*          /podcast.html          301
-/episode/*           /podcast.html          301
-/archive             /podcast.html          301
-/all-episodes        /podcast.html          301
-/listen              /podcast.html          301
-/podcast             /podcast.html          301
-/ask                 /ask-the-desk.html     301
-/ask/*               /ask-the-desk.html     301
-/ask-a-question      /ask-the-desk.html     301
-/ask-the-desk        /ask-the-desk.html     301
-/question            /ask-the-desk.html     301
-/questions           /ask-the-desk.html     301
-/guest               /podcast.html          301
-/be-a-guest          /podcast.html          301
-/about               /about.html            301
-/about/*             /about.html            301
-/about-the-host      /about.html            301
-/host                /about.html            301
-/bio                 /about.html            301
-/subscribe           /brief.html            301
-/newsletter          /brief.html            301
-/brief               /brief.html            301
-/contact             /contact.html          301
-/contact/*           /contact.html          301
-/services            /services.html         301
-/tools               /tools.html            301
-/calculators         /tools.html            301
-/apps                /services.html         301
-/custom-apps         /services.html         301
-/white-paper         /resources.html        301
-/whitepaper          /resources.html        301
-/resources           /resources.html        301
-/papers              /resources.html        301
-/case-study          /case-study.html       301
-/case-studies        /case-study.html       301
-/proof               /case-study.html       301
-/home                /                      301
-/index               /                      301
-# NOTE: no catch-all /* rule — unmatched paths fall through to 404.html
-# (a /* -> /index.html rule triggers Cloudflare's infinite-loop check and fails the deploy)
+# Alias / legacy paths -> canonical CLEAN URLs.
+#
+# IMPORTANT: Cloudflare Workers Static Assets already serves clean URLs
+# (/about serves about.html) and auto-redirects /about.html -> /about.
+# So do NOT add "/name -> /name.html" rules — they loop against that
+# auto-stripping and fail at runtime with "too many redirects".
+# Only real aliases (a path with no matching file) belong here, and they
+# must target the clean URL, not the .html file.
+
+# Podcast
+/episodes            /podcast        301
+/episodes/*          /podcast        301
+/episode/*           /podcast        301
+/archive             /podcast        301
+/all-episodes        /podcast        301
+/listen              /podcast        301
+/guest               /podcast        301
+/be-a-guest          /podcast        301
+
+# Ask the Desk
+/ask                 /ask-the-desk   301
+/ask/*               /ask-the-desk   301
+/ask-a-question      /ask-the-desk   301
+/question            /ask-the-desk   301
+/questions           /ask-the-desk   301
+
+# About
+/about/*             /about          301
+/about-the-host      /about          301
+/host                /about          301
+/bio                 /about          301
+
+# Brief / newsletter
+/subscribe           /brief          301
+/newsletter          /brief          301
+
+# Contact
+/contact/*           /contact        301
+
+# Tools
+/calculators         /tools          301
+
+# Services
+/apps                /services       301
+/custom-apps         /services       301
+
+# Resources / white papers
+/white-paper         /resources      301
+/whitepaper          /resources      301
+/papers              /resources      301
+
+# Case study
+/case-studies        /case-study     301
+/proof               /case-study     301
+
+# Home
+/home                /               301
+/index               /               301
