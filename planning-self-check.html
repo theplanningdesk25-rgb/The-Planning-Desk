@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planning Self-Check | The Planning Desk</title>
+<meta name="description" content="Twelve questions. Five minutes. A scored read on how much of your planning runs on a system and how much runs on one person.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Nunito:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azure:#18A6E6; --azure-deep:#0E83BD; --azure-tint:#E2F2FB;
+    --charcoal:#21262B; --ink:#14181B;
+    --paper:#ECEDF0; --surface:#FFFFFF; --surface-2:#F6F8FA;
+    --line:#DBDFE5; --muted:#79828B;
+    --good:#1FA971; --warn:#E0942B; --bad:#D9534F;
+    --shadow:0 1px 2px rgba(20,24,27,.04),0 14px 36px -16px rgba(20,24,27,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--charcoal);font-family:'Poppins',system-ui,sans-serif;line-height:1.55;padding:clamp(14px,4vw,40px) clamp(10px,3vw,28px);display:flex;justify-content:center}
+  .wrap{width:100%;max-width:780px;display:flex;flex-direction:column;gap:18px}
+
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--azure-deep)}
+  h1{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(26px,6vw,40px);line-height:1.1;letter-spacing:-.02em;margin:6px 0 10px}
+  .lede{font-size:clamp(15px,3.6vw,17px);color:#4A525A;max-width:60ch}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,4vw,24px);box-shadow:var(--shadow)}
+
+  /* progress rail */
+  .rail{position:sticky;top:0;z-index:20;background:var(--paper);padding:10px 0 12px;margin:0 -2px}
+  .railInner{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+  .bar{flex:1;height:7px;background:var(--surface-2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .barFill{height:100%;width:0%;background:var(--azure);transition:width .28s ease}
+  .railNum{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
+
+  /* sections */
+  .secHead{display:flex;align-items:baseline;gap:10px;margin:14px 2px 6px}
+  .secHead .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--azure-deep);letter-spacing:.12em}
+  .secHead h2{font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.01em}
+
+  .q{border-top:1px solid var(--line);padding:18px 0 4px}
+  .q:first-child{border-top:none;padding-top:2px}
+  .qhead{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+  .qnum{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);padding-top:3px;min-width:22px}
+  .qtext{font-weight:500;font-size:15.5px;line-height:1.45}
+
+  .opts{display:flex;flex-direction:column;gap:7px;padding-left:32px}
+  .opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:'Poppins',sans-serif;font-size:14.5px;line-height:1.4;color:var(--charcoal);cursor:pointer;transition:border-color .15s,background .15s}
+  .opt:hover{border-color:var(--azure)}
+  .opt:focus-visible{outline:2px solid var(--azure-deep);outline-offset:2px}
+  .opt[aria-pressed="true"]{background:var(--azure-tint);border-color:var(--azure)}
+  .dot{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--muted);flex:0 0 auto;margin-top:3px}
+  .opt[aria-pressed="true"] .dot{border-color:var(--azure-deep);background:var(--azure-deep);box-shadow:inset 0 0 0 3px #fff}
+
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .btn{font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;border-radius:10px;padding:13px 20px;cursor:pointer;border:1px solid transparent;text-decoration:none;display:inline-block;text-align:center}
+  .btn:focus-visible{outline:2px solid var(--azure-deep);outline-offset:2px}
+  .primary{background:var(--azure);color:#fff;flex:1;min-width:200px}
+  .primary:hover{background:var(--azure-deep)}
+  .primary:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+  .ghost{background:transparent;color:var(--charcoal);border-color:var(--line)}
+  .ghost:hover{border-color:var(--muted)}
+
+  /* results */
+  #result{display:none}
+  .scoreTop{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 18px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px}
+  .big{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(46px,13vw,66px);line-height:.95;letter-spacing:-.03em;color:var(--azure-deep)}
+  .of{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);padding-bottom:8px}
+  .band{font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(18px,4.6vw,22px);width:100%;letter-spacing:-.01em}
+
+  .rows{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+  .row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+  .rowName{font-size:14px;font-weight:500}
+  .rowNum{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted)}
+  .track{grid-column:1/-1;height:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px}
+
+  .read{font-size:15px;color:#41494F;margin-bottom:14px}
+  .read p{margin-bottom:10px}
+  .gapbox{background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--azure);border-radius:8px;padding:14px 16px;margin-bottom:18px}
+  .gapbox h3{font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;margin-bottom:8px}
+  .gapbox ul{margin:0;padding-left:18px;font-size:14.5px;color:#41494F}
+  .gapbox li{margin-bottom:6px}
+
+  .cta{background:var(--charcoal);color:#EDEFF2;border-radius:14px;padding:clamp(18px,4vw,26px)}
+  .cta .eyebrow{color:var(--azure)}
+  .cta h3{font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(19px,4.6vw,23px);margin:6px 0 8px;color:#fff}
+  .cta p{font-size:14.5px;color:#B9C1C9;margin-bottom:16px}
+  .cta a.btn{background:var(--azure);color:#fff;width:100%}
+  .cta a.btn:hover{background:var(--azure-deep)}
+
+  footer{font-size:12.5px;color:var(--muted);text-align:center;padding:8px 0 4px}
+  footer a{color:var(--azure-deep);text-decoration:none}
+
+  .note{font-size:12.5px;color:var(--muted);margin-top:12px}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+  @media (max-width:520px){.opts{padding-left:0}.qnum{min-width:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Free tool</div>
+    <h1>The Planning Self-Check</h1>
+    <p class="lede">Twelve questions about how your plant actually plans. No exports, no logins, no data leaves this page. You get a score out of 36 and a plain read on where the gap is.</p>
+    <p class="meta">12 QUESTIONS &middot; ABOUT 5 MINUTES &middot; NOTHING IS STORED</p>
+  </header>
+
+  <div class="rail">
+    <div class="railInner">
+      <div class="bar"><div class="barFill" id="barFill"></div></div>
+      <div class="railNum" id="railNum">0 / 12</div>
+    </div>
+  </div>
+
+  <div class="card" id="quiz"></div>
+
+  <div class="actions">
+    <button class="btn primary" id="scoreBtn" disabled>Answer all 12 to see your score</button>
+    <button class="btn ghost" id="resetBtn">Start over</button>
+  </div>
+
+  <div id="result">
+    <div class="card">
+      <div class="scoreTop">
+        <div class="big" id="total">0</div>
+        <div class="of">out of 36</div>
+        <div class="band" id="bandName"></div>
+      </div>
+
+      <div class="rows" id="rows"></div>
+
+      <div class="read" id="read"></div>
+
+      <div class="gapbox" id="gapbox">
+        <h3>Where your points went missing</h3>
+        <ul id="gaps"></ul>
+      </div>
+
+      <a class="btn ghost" id="emailBtn" href="#" style="width:100%">Email these results to myself</a>
+      <p class="note">Opens your mail app with the score filled in. Nothing sends automatically.</p>
+    </div>
+
+    <div class="cta" style="margin-top:18px">
+      <div class="eyebrow">Next step</div>
+      <h3 id="ctaHead">Put a dollar figure on it</h3>
+      <p id="ctaBody">The Planning Diagnostic turns these answers into numbers. Two to three weeks, fixed price from $8,500, credited in full toward any work that follows. Four ERP exports, one day on site, about six hours of your team's time.</p>
+      <a class="btn" href="contact.html">Book a Planning Diagnostic</a>
+    </div>
+  </div>
+
+  <footer>
+    The Planning Desk LLC &middot; <a href="/">the-planning-desk.com</a>
+  </footer>
+</div>
+
+<script>
+const SECTIONS = [
+  { key:"forecast", name:"Forecast", questions:[
+    { q:"How is your demand forecast produced?", a:[
+      "There is no forecast. We build to orders as they land.",
+      "A spreadsheet one person maintains from memory and feel.",
+      "A spreadsheet built from shipment history, with input from sales.",
+      "A statistical or system-generated forecast, reviewed on a set cadence."]},
+    { q:"Do you measure forecast error?", a:[
+      "No.",
+      "We talk about the misses. We do not track a number.",
+      "We track it at the total company level.",
+      "We track error and bias by product family every month."]},
+    { q:"How far out is the forecast firm enough to buy against?", a:[
+      "We buy when the order arrives.",
+      "Under four weeks.",
+      "Four to twelve weeks.",
+      "Thirteen weeks or more, with a documented time fence."]}
+  ]},
+  { key:"inventory", name:"Inventory and cash", questions:[
+    { q:"When was safety stock last recalculated?", a:[
+      "Never, or nobody here knows.",
+      "More than two years ago.",
+      "Within the last year, on selected items.",
+      "Within the last six months, from demand variability and actual lead times."]},
+    { q:"Can you state today's dollars in excess inventory and dollars at stockout risk?", a:[
+      "No.",
+      "We have a rough feel. No number.",
+      "One of the two, with a day or two of work.",
+      "Both, from a report that already exists."]},
+    { q:"Do you know last year's expedite and premium freight spend?", a:[
+      "It is not tracked anywhere.",
+      "Finance could dig it out. We never look.",
+      "We know the annual total.",
+      "We track it monthly and by cause."]}
+  ]},
+  { key:"schedule", name:"Schedule and capacity", questions:[
+    { q:"What percentage of work orders finished in their scheduled week last month?", a:[
+      "We do not schedule to a week.",
+      "We schedule, but we do not measure completion.",
+      "We measure it. It runs under 80 percent.",
+      "We measure it. It runs at 80 percent or better."]},
+    { q:"How do you know when a work center is overloaded?", a:[
+      "The floor tells us.",
+      "Due dates start slipping.",
+      "A load spreadsheet somebody maintains by hand.",
+      "A system load report we review before releasing work."]}
+  ]},
+  { key:"data", name:"ERP data", questions:[
+    { q:"How accurate are the lead times in your item master?", a:[
+      "We do not trust them.",
+      "Set at go-live. Rarely touched since.",
+      "Updated when someone notices a problem.",
+      "Reviewed on a schedule against actual receipt history."]},
+    { q:"Are order policies set deliberately? Minimums, multiples, reorder points, lot sizes.", a:[
+      "Mostly blank or left at the system default.",
+      "Set once at implementation.",
+      "Reviewed on the top-moving items.",
+      "Reviewed on a schedule across the catalog."]}
+  ]},
+  { key:"continuity", name:"Continuity", questions:[
+    { q:"Your planner is out two weeks, unplanned. What happens?", a:[
+      "The schedule stops.",
+      "We manage badly and spend a month catching up.",
+      "A backup covers it with gaps.",
+      "A documented process and a trained backup run it."]},
+    { q:"Do purchasing, production, and finance plan from the same numbers?", a:[
+      "Each one keeps its own file.",
+      "Same system, different extracts and private adjustments.",
+      "Mostly aligned, reconciled in a monthly meeting.",
+      "One demand plan, one supply plan, one cadence everyone works from."]}
+  ]}
+];
+
+const BANDS = [
+  { min:29, name:"Systematized", color:"var(--good)",
+    read:"<p>Your planning runs on a process, not on a person. The answers here suggest measurement is in place and the numbers are trusted enough to act on.</p><p>An outside diagnostic would probably confirm what you already know. If you want a second opinion on a specific number, that is a conversation, not an engagement. Spend the money somewhere it changes an outcome.</p>",
+    ctaHead:"You likely do not need a diagnostic yet",
+    ctaBody:"At this score an assessment would mostly confirm what your own reports already show. If one specific area came back low, start there. The diagnostic is built for plants that cannot yet put a dollar figure on the gap." },
+  { min:20, name:"Partly systematized", color:"var(--azure-deep)",
+    read:"<p>The structure exists. The discipline is uneven. Most plants in this range have good data in one or two areas and stale assumptions in the rest, which is why the plan holds until it suddenly does not.</p><p>The cost here is rarely visible in one place. It shows up as expedite spend in one account, excess inventory in another, and overtime in a third. Nobody adds them together.</p>",
+    ctaHead:"Put a dollar figure on the uneven parts",
+    ctaBody:"The Planning Diagnostic quantifies the gaps you scored low on. Two to three weeks, fixed price from $8,500, credited in full toward any work that follows. Four ERP exports, one day on site, about six hours of your team's time." },
+  { min:11, name:"Manual and reactive", color:"var(--warn)",
+    read:"<p>The plan is being produced by effort rather than by system. That works while volume is flat and the same people stay. It stops working during growth, a new facility, or a resignation.</p><p>The measurable symptoms are consistent: expedite spend climbing year over year, cash sitting in inventory that is not the inventory running short, and due dates that get committed before capacity is checked.</p>",
+    ctaHead:"Start with the numbers, not the software",
+    ctaBody:"The Planning Diagnostic quantifies excess inventory dollars, stockout exposure, and annual expedite spend, then ranks the fixes by dollar impact. Fixed price from $8,500, credited in full toward any work that follows. We are software-agnostic and we put that in writing." },
+  { min:0, name:"Person-dependent", color:"var(--bad)",
+    read:"<p>The plan lives in one or two heads. There is no scoreboard, so there is no way to prove the plan is working or to hand it to anyone else.</p><p>This is not a criticism of the people. It is the normal outcome when a shop grows faster than its systems. It is also the single largest continuity risk on this list, and it does not resolve on its own.</p>",
+    ctaHead:"Get the baseline measured first",
+    ctaBody:"Before any software decision, you need numbers: what inventory costs today, what expedites cost, and what the schedule actually delivers. The Planning Diagnostic produces those in two to three weeks. Fixed price from $8,500, credited in full toward any work that follows." }
+];
+
+const GAP_TEXT = {
+  forecast:"Forecast: no measured error means no way to know whether the plan is improving.",
+  inventory:"Inventory and cash: the dollars in excess and the dollars at risk are not currently visible.",
+  schedule:"Schedule and capacity: due dates are being committed without a load check behind them.",
+  data:"ERP data: lead times and order policies are driving orders that nobody reviews.",
+  continuity:"Continuity: the schedule depends on a person who could leave or be out sick."
+};
+
+const flat = [];
+SECTIONS.forEach(s => s.questions.forEach(q => flat.push({ ...q, key:s.key })));
+const answers = new Array(flat.length).fill(null);
+
+const quiz = document.getElementById("quiz");
+let n = 0;
+SECTIONS.forEach((s, si) => {
+  const head = document.createElement("div");
+  head.className = "secHead";
+  head.innerHTML = '<span class="n">' + String(si + 1).padStart(2,"0") + '</span><h2>' + s.name + '</h2>';
+  if (si === 0) head.style.margin = "0 2px 6px";
+  quiz.appendChild(head);
+
+  s.questions.forEach(q => {
+    const idx = n++;
+    const box = document.createElement("div");
+    box.className = "q";
+    const opts = q.a.map((t, i) =>
+      '<button class="opt" type="button" aria-pressed="false" data-q="' + idx + '" data-v="' + i + '"><span class="dot"></span><span>' + t + '</span></button>'
+    ).join("");
+    box.innerHTML =
+      '<div class="qhead"><div class="qnum">' + String(idx + 1).padStart(2,"0") + '</div>' +
+      '<div class="qtext">' + q.q + '</div></div>' +
+      '<div class="opts">' + opts + '</div>';
+    quiz.appendChild(box);
+  });
+});
+
+const scoreBtn = document.getElementById("scoreBtn");
+const barFill = document.getElementById("barFill");
+const railNum = document.getElementById("railNum");
+
+quiz.addEventListener("click", e => {
+  const btn = e.target.closest(".opt");
+  if (!btn) return;
+  const qi = +btn.dataset.q, v = +btn.dataset.v;
+  answers[qi] = v;
+  btn.parentElement.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed","false"));
+  btn.setAttribute("aria-pressed","true");
+  updateProgress();
+});
+
+function updateProgress(){
+  const done = answers.filter(a => a !== null).length;
+  barFill.style.width = (done / flat.length * 100) + "%";
+  railNum.textContent = done + " / " + flat.length;
+  scoreBtn.disabled = done < flat.length;
+  scoreBtn.textContent = done < flat.length
+    ? "Answer all 12 to see your score"
+    : "See my score";
+}
+
+scoreBtn.addEventListener("click", () => {
+  const total = answers.reduce((a,b) => a + b, 0);
+  const band = BANDS.find(b => total >= b.min);
+
+  document.getElementById("total").textContent = total;
+  const bn = document.getElementById("bandName");
+  bn.textContent = band.name;
+  bn.style.color = band.color;
+  document.getElementById("read").innerHTML = band.read;
+  document.getElementById("ctaHead").textContent = band.ctaHead;
+  document.getElementById("ctaBody").textContent = band.ctaBody;
+
+  const rows = document.getElementById("rows");
+  rows.innerHTML = "";
+  const secScores = [];
+  let cursor = 0;
+  SECTIONS.forEach(s => {
+    const count = s.questions.length;
+    const got = answers.slice(cursor, cursor + count).reduce((a,b) => a + b, 0);
+    const max = count * 3;
+    cursor += count;
+    const pct = got / max;
+    secScores.push({ key:s.key, name:s.name, pct:pct });
+    const color = pct >= .75 ? "var(--good)" : pct >= .5 ? "var(--azure)" : pct >= .34 ? "var(--warn)" : "var(--bad)";
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML =
+      '<div class="rowName">' + s.name + '</div>' +
+      '<div class="rowNum">' + got + ' / ' + max + '</div>' +
+      '<div class="track"><div class="fill" style="width:' + (pct * 100) + '%;background:' + color + '"></div></div>';
+    rows.appendChild(row);
+  });
+
+  const weak = secScores.filter(s => s.pct < .5).sort((a,b) => a.pct - b.pct);
+  const gapbox = document.getElementById("gapbox");
+  const gaps = document.getElementById("gaps");
+  gaps.innerHTML = "";
+  if (weak.length === 0) {
+    gapbox.style.display = "none";
+  } else {
+    gapbox.style.display = "block";
+    weak.forEach(s => {
+      const li = document.createElement("li");
+      li.textContent = GAP_TEXT[s.key];
+      gaps.appendChild(li);
+    });
+  }
+
+  const lines = ["Planning Self-Check result", "", "Score: " + total + " out of 36", "Band: " + band.name, ""];
+  secScores.forEach((s, i) => {
+    const count = SECTIONS[i].questions.length;
+    lines.push(s.name + ": " + Math.round(s.pct * count * 3) + " of " + count * 3);
+  });
+  lines.push("", "Answers, 0 is lowest and 3 is highest:");
+  flat.forEach((q, i) => lines.push((i + 1) + ". " + q.q + " [" + answers[i] + "]"));
+  document.getElementById("emailBtn").href =
+    "mailto:?subject=" + encodeURIComponent("My Planning Self-Check result: " + total + "/36") +
+    "&body=" + encodeURIComponent(lines.join("\n"));
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({ behavior:"smooth", block:"start" });
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  answers.fill(null);
+  quiz.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed","false"));
+  document.getElementById("result").style.display = "none";
+  updateProgress();
+  window.scrollTo({ top:0, behavior:"smooth" });
+});
+
+updateProgress();
+</script>
+</body>
+</html>
