@@ -5,6 +5,16 @@
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Podcast | The Planning Desk</title>
+<meta name="description" content="The Planning Desk podcast: practical conversations on production planning, supply chain, forecasting, and AI for manufacturers. Listen to every episode.">
+<link rel="canonical" href="https://the-planning-desk.com/podcast">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Planning Desk">
+<meta property="og:title" content="Podcast | The Planning Desk">
+<meta property="og:description" content="The Planning Desk podcast: practical conversations on production planning, supply chain, forecasting, and AI for manufacturers. Listen to every episode.">
+<meta property="og:url" content="https://the-planning-desk.com/podcast">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Podcast | The Planning Desk">
+<meta name="twitter:description" content="The Planning Desk podcast: practical conversations on production planning, supply chain, forecasting, and AI for manufacturers. Listen to every episode.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Nunito:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -237,6 +247,16 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 .guest li{font-size:14px;color:#d5dbe0;font-weight:300;padding-left:24px;position:relative}
 .guest li::before{content:"";position:absolute;left:0;top:7px;width:11px;height:7px;border-left:2px solid var(--azure);border-bottom:2px solid var(--azure);transform:rotate(-45deg)}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "The Planning Desk",
+  "description": "Practical conversations on production planning, supply chain, forecasting, and AI for manufacturers.",
+  "url": "https://the-planning-desk.com/podcast",
+  "publisher": { "@type": "Organization", "name": "The Planning Desk LLC" }
+}
+</script>
 </head>
 <body>
 <header id="hdr">
@@ -416,7 +436,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="#">LinkedIn</a>
+        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
     <div class="foot-bar">
@@ -433,6 +453,25 @@ if(burger){burger.addEventListener('click',()=>{const o=navlinks.classList.toggl
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
+
+// Inline audio: a play button that points at a raw .mp3 now plays on-page
+// instead of dumping the listener onto a bare audio file in a new tab. Podbean
+// share/player links are left to open normally. Progressive enhancement — with
+// JS off, the links still work as before.
+document.querySelectorAll('a.playbtn').forEach(btn=>{
+  const href=btn.getAttribute('href')||'';
+  if(!/\.mp3(\?|$)/i.test(href)) return;
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    const cell=btn.parentNode;
+    if(cell.querySelector('audio')) return; // already expanded
+    const audio=document.createElement('audio');
+    audio.controls=true; audio.autoplay=true; audio.src=href;
+    audio.style.width='100%'; audio.style.marginTop='8px';
+    btn.style.display='none';
+    cell.appendChild(audio);
+  });
+});
 </script>
 </body>
 </html>
