@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ask the Desk | The Planning Desk</title>
@@ -12,7 +14,11 @@
 <meta property="og:title" content="Ask the Desk | The Planning Desk">
 <meta property="og:description" content="Ask the Desk: submit your production planning and supply chain questions and hear them answered on The Planning Desk podcast.">
 <meta property="og:url" content="https://the-planning-desk.com/ask-the-desk">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://the-planning-desk.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://the-planning-desk.com/og-image.png">
 <meta name="twitter:title" content="Ask the Desk | The Planning Desk">
 <meta name="twitter:description" content="Ask the Desk: submit your production planning and supply chain questions and hear them answered on The Planning Desk podcast.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,8 +243,21 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 .qlist li{font-style:italic;color:var(--muted);padding-left:16px}
 .qlist li::before{content:"“";border:0;transform:none;top:0;font-size:18px;color:var(--azure);width:auto;height:auto}
 </style>
+<style>
+/* accessibility + contrast overrides (2026-10) */
+:root{--muted:#5E666D;--muted-2:#6E767D;--azure-cta:#0D7AB0}
+.skip-link{position:absolute;left:12px;top:-48px;z-index:2000;background:#0D7AB0;color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;font-family:'Poppins',system-ui,sans-serif;font-weight:600;font-size:14px;transition:top .15s}
+.skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
+.btn-primary,.nav-cta .btn-primary,.play,.ep-card .play,.ic,.ai-card .ic{background:#0D7AB0}
+.btn-primary:hover{background:#0A6690}
+.subscribe input:focus,.form input:focus,.form textarea:focus,.sub-row input:focus,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #0D7AB0;outline-offset:1px;box-shadow:0 0 0 3px rgba(13,122,176,.45)}
+.form-success{background:var(--azure-tint);border:1px solid #BFE3F6;border-radius:12px;padding:20px 22px;color:#13384a}
+.form-success h3{color:var(--ink);font-size:20px;margin-bottom:6px}
+.form-error{color:#B4322C;font-size:13px;margin-top:10px}
+</style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header id="hdr">
   <div class="container nav">
     <a href="#top" class="logo" aria-label="The Planning Desk home">
@@ -265,6 +284,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
     </nav>
   </div>
 </header>
+<main id="main" tabindex="-1">
 
 <section class="ask-hero"><div class="container">
   <div class="eyebrow">Listener questions</div>
@@ -273,34 +293,36 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 </div></section>
 
 <section style="padding-top:16px"><div class="container ask-grid">
-  <div class="ask-form reveal">
+  <form class="ask-form reveal" onsubmit="return tpdLead(this,'ask-the-desk')">
     <div class="two">
-      <div class="f"><label>Your name</label><input type="text" id="a_name" placeholder="Your name"></div>
-      <div class="f"><label>Company</label><input type="text" id="a_co" placeholder="Company"></div>
+      <div class="f"><label for="a_name">Your name</label><input type="text" id="a_name" name="name" autocomplete="name" placeholder="Your name" required></div>
+      <div class="f"><label for="a_co">Company</label><input type="text" id="a_co" name="company" autocomplete="organization" placeholder="Company"></div>
     </div>
     <div class="two">
-      <div class="f"><label>Your role</label><input type="text" id="a_role" placeholder="e.g. Materials Manager"></div>
-      <div class="f"><label>Email</label><input type="email" id="a_em" placeholder="you@company.com"></div>
+      <div class="f"><label for="a_role">Your role</label><input type="text" id="a_role" name="role" autocomplete="organization-title" placeholder="e.g. Materials Manager"></div>
+      <div class="f"><label for="a_em">Email</label><input type="email" id="a_em" name="email" autocomplete="email" placeholder="you@company.com" required></div>
     </div>
-    <div class="f"><label>Industry</label>
-      <select id="a_ind">
+    <div class="f"><label for="a_ind">Industry</label>
+      <select id="a_ind" name="industry">
         <option>Select your industry</option><option>Aerospace &amp; Defense</option><option>Medical Devices</option>
         <option>Automotive</option><option>Industrial Equipment</option><option>Electronics</option>
         <option>Consumer Goods</option><option>Food &amp; Beverage</option><option>Pharmaceutical</option><option>Other Manufacturing</option>
       </select></div>
-    <div class="f"><label>Topic area</label>
-      <select id="a_topic">
+    <div class="f"><label for="a_topic">Topic area</label>
+      <select id="a_topic" name="topic">
         <option>What's this about?</option><option>AI &amp; Technology in Planning</option><option>Production Scheduling</option>
         <option>Demand Planning &amp; Forecasting</option><option>ERP &amp; Systems</option><option>S&amp;OP Process</option>
         <option>Supplier Management</option><option>Digital Twins</option><option>Career &amp; Professional Development</option>
         <option>Guest Request</option><option>Other</option>
       </select></div>
-    <div class="f"><label>Your question</label><textarea rows="5" id="a_q" placeholder="The more specific, the better. Real situations beat hypotheticals."></textarea></div>
-    <label class="chk"><input type="checkbox" id="a_air"> I'm okay with my name and company being mentioned on air if this question is featured.</label>
-    <label class="chk"><input type="checkbox" id="a_news"> Add me to The Planning Desk Brief for episode drops and planning intelligence.</label>
-    <button class="btn btn-primary" id="a_send" style="width:100%;justify-content:center;margin-top:6px">Send to the Desk →</button>
-    <p style="font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);margin-top:12px;text-align:center">This opens an email to theplanningdesk25@gmail.com with your question filled in.</p>
-  </div>
+    <div class="f"><label for="a_q">Your question</label><textarea rows="5" id="a_q" name="question" placeholder="The more specific, the better. Real situations beat hypotheticals."></textarea></div>
+    <label class="chk"><input type="checkbox" id="a_air" name="on_air" value="yes"> I'm okay with my name and company being mentioned on air if this question is featured.</label>
+    <label class="chk"><input type="checkbox" id="a_news" name="newsletter" value="yes"> Add me to The Planning Desk Brief for episode drops and planning intelligence.</label>
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+    <button class="btn btn-primary" type="submit" id="a_send" style="width:100%;justify-content:center;margin-top:6px">Send to the Desk →</button>
+    <p class="form-note" style="font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);margin-top:12px;text-align:center">Every question is read personally.</p>
+    <div class="form-success" hidden><h3>Sent to the Desk.</h3><p>Thanks. Your question is in. The sharpest ones get answered on air.</p></div>
+  </form>
 
   <div class="reveal">
     <div class="side-card">
@@ -330,6 +352,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
   </div>
 </div></section>
 
+</main>
 <footer>
   <div class="container">
     <div class="foot-grid">
@@ -352,7 +375,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:leads@the-planning-desk.com">leads@the-planning-desk.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
     <div class="foot-bar">
@@ -370,18 +393,28 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
 </script>
+<!-- ask-the-desk form handled by tpdLead -->
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
-  const b=document.getElementById('a_send'); if(!b) return;
-  b.addEventListener('click',()=>{
-    const g=id=>{const e=document.getElementById(id); return e.type==='checkbox'?(e.checked?'Yes':'No'):(e.value||'');};
-    const body='Name: '+g('a_name')+'\nCompany: '+g('a_co')+'\nRole: '+g('a_role')+'\nEmail: '+g('a_em')
-      +'\nIndustry: '+g('a_ind')+'\nTopic: '+g('a_topic')
-      +'\n\nQuestion:\n'+g('a_q')
-      +'\n\nOK to mention on air: '+g('a_air')+'\nAdd to the Brief: '+g('a_news');
-    location.href='mailto:theplanningdesk25@gmail.com?subject='+encodeURIComponent('Ask the Desk: '+g('a_topic'))+'&body='+encodeURIComponent(body);
-  });
-});
+window.tpdLead=function(form,source){
+  var data={}; new FormData(form).forEach(function(v,k){data[k]=v;});
+  data.source=source; data.page=location.pathname; data.referrer=document.referrer||'';
+  var btn=form.querySelector('button[type=submit]')||form.querySelector('button'); var orig=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+   .then(function(r){if(!r.ok)throw new Error('bad');return r.json();})
+   .then(function(){
+     var ok=form.querySelector('.form-success');
+     Array.prototype.forEach.call(form.children,function(e){if(!e.classList.contains('form-success'))e.style.display='none';});
+     if(ok){ok.hidden=false;ok.setAttribute('tabindex','-1');try{ok.focus();}catch(e){}}
+   })
+   .catch(function(){
+     if(btn){btn.disabled=false;btn.textContent=orig;}
+     var lines=Object.keys(data).filter(function(k){return k.charAt(0)!=='_'&&['source','page','referrer'].indexOf(k)<0;})
+       .map(function(k){return k+': '+data[k];}).join('\n');
+     location.href='mailto:leads@the-planning-desk.com?subject='+encodeURIComponent('Website enquiry: '+source)+'&body='+encodeURIComponent(lines);
+   });
+  return false;
+};
 </script>
 </body>
 </html>

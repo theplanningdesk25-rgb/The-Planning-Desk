@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Planning Desk | AI-Powered Planning & Supply Chain for Manufacturers</title>
@@ -12,7 +14,11 @@
 <meta property="og:title" content="The Planning Desk | AI-Powered Planning & Supply Chain for Manufacturers">
 <meta property="og:description" content="AI-powered planning and supply chain help for manufacturers. Book a fixed-scope planning diagnostic, get The Brief, and listen to The Planning Desk podcast.">
 <meta property="og:url" content="https://the-planning-desk.com/">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://the-planning-desk.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://the-planning-desk.com/og-image.png">
 <meta name="twitter:title" content="The Planning Desk | AI-Powered Planning & Supply Chain for Manufacturers">
 <meta name="twitter:description" content="AI-powered planning and supply chain help for manufacturers. Book a fixed-scope planning diagnostic, get The Brief, and listen to The Planning Desk podcast.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -267,13 +273,26 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
   "legalName": "The Planning Desk LLC",
   "description": "AI-powered planning and supply chain help for manufacturers: fixed-scope diagnostics, forecasting, inventory, and ERP-fit.",
   "url": "https://the-planning-desk.com",
-  "email": "theplanningdesk25@gmail.com",
+  "email": "leads@the-planning-desk.com",
   "areaServed": "US",
   "audience": { "@type": "Audience", "audienceType": "Manufacturers and industrial distributors" }
 }
 </script>
+<style>
+/* accessibility + contrast overrides (2026-10) */
+:root{--muted:#5E666D;--muted-2:#6E767D;--azure-cta:#0D7AB0}
+.skip-link{position:absolute;left:12px;top:-48px;z-index:2000;background:#0D7AB0;color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;font-family:'Poppins',system-ui,sans-serif;font-weight:600;font-size:14px;transition:top .15s}
+.skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
+.btn-primary,.nav-cta .btn-primary,.play,.ep-card .play,.ic,.ai-card .ic{background:#0D7AB0}
+.btn-primary:hover{background:#0A6690}
+.subscribe input:focus,.form input:focus,.form textarea:focus,.sub-row input:focus,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #0D7AB0;outline-offset:1px;box-shadow:0 0 0 3px rgba(13,122,176,.45)}
+.form-success{background:var(--azure-tint);border:1px solid #BFE3F6;border-radius:12px;padding:20px 22px;color:#13384a}
+.form-success h3{color:var(--ink);font-size:20px;margin-bottom:6px}
+.form-error{color:#B4322C;font-size:13px;margin-top:10px}
+</style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- HEADER -->
 <header id="hdr">
@@ -302,6 +321,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
     </nav>
   </div>
 </header>
+<main id="main" tabindex="-1">
 
 <a id="top"></a>
 
@@ -603,10 +623,13 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       <div class="eyebrow">The Planning Desk Brief</div>
       <h2>Planning intelligence, every other week.</h2>
       <p>Lead-time trends, tariff and sourcing watch, inventory benchmarks, and one sharp planning tip, written for people who run the plan at a manufacturer. No fluff.</p>
-      <div class="subscribe">
-        <input type="email" id="subEmail" placeholder="you@yourcompany.com" aria-label="Email address">
-        <button class="btn btn-light" id="subBtn">Subscribe</button>
-      </div>
+      <form class="subscribe" onsubmit="return tpdLead(this,'home-brief')">
+        <label for="subEmail" style="position:absolute;left:-9999px">Email address</label>
+        <input type="email" id="subEmail" name="email" autocomplete="email" placeholder="you@yourcompany.com" aria-label="Email address" required>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <button class="btn btn-light" type="submit" id="subBtn">Subscribe</button>
+        <div class="form-success" hidden><h3>You're on the list.</h3><p>Thanks. The next Brief will reach your inbox.</p></div>
+      </form>
       <div class="brief-note">Free · unsubscribe anytime</div>
     </div>
   </div>
@@ -646,17 +669,20 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
         <li>Done in 2–3 weeks, not months</li>
       </ul>
     </div>
-    <div class="form reveal">
-      <div class="f"><label>Name</label><input type="text" id="bk_name" placeholder="Your name"></div>
-      <div class="f"><label>Company</label><input type="text" id="bk_co" placeholder="Company name"></div>
-      <div class="f"><label>Work email</label><input type="email" id="bk_em" placeholder="you@yourcompany.com"></div>
-      <div class="f"><label>What's the planning headache?</label><textarea rows="3" id="bk_msg" placeholder="A sentence or two is plenty."></textarea></div>
-      <button class="btn btn-primary" id="bookBtn">Request my diagnostic →</button>
-    </div>
+    <form class="form reveal" onsubmit="return tpdLead(this,'home-diagnostic')">
+      <div class="f"><label for="bk_name">Name</label><input type="text" id="bk_name" name="name" autocomplete="name" placeholder="Your name" required></div>
+      <div class="f"><label for="bk_co">Company</label><input type="text" id="bk_co" name="company" autocomplete="organization" placeholder="Company name"></div>
+      <div class="f"><label for="bk_em">Work email</label><input type="email" id="bk_em" name="email" autocomplete="email" placeholder="you@yourcompany.com" required></div>
+      <div class="f"><label for="bk_msg">What's the planning headache?</label><textarea rows="3" id="bk_msg" name="message" placeholder="A sentence or two is plenty."></textarea></div>
+      <div class="f" aria-hidden="true" style="position:absolute;left:-9999px"><label for="bk_hp">Leave blank</label><input type="text" id="bk_hp" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <button class="btn btn-primary" type="submit" id="bookBtn">Request my diagnostic →</button>
+      <div class="form-success" hidden><h3>Request received.</h3><p>Thanks. We will reply within one business day to scope your diagnostic.</p></div>
+    </form>
   </div>
 </section>
 
 <!-- FOOTER -->
+</main>
 <footer>
   <div class="container">
     <div class="foot-grid">
@@ -679,7 +705,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:leads@the-planning-desk.com">leads@the-planning-desk.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
     <div class="foot-bar">
@@ -705,15 +731,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
   // placeholder actions
   const g=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
   // Subscribe → email us the address to add to The Brief list.
-  document.getElementById('subBtn').addEventListener('click',()=>{
-    const em=g('subEmail');
-    location.href='mailto:theplanningdesk25@gmail.com?subject='+encodeURIComponent('Subscribe to The Planning Desk Brief')+'&body='+encodeURIComponent('Please add me to The Brief: '+em);
-  });
-  // Diagnostic request → compose an email with the form details.
-  document.getElementById('bookBtn').addEventListener('click',()=>{
-    const body='Name: '+g('bk_name')+'\nCompany: '+g('bk_co')+'\nEmail: '+g('bk_em')+'\n\nPlanning headache:\n'+g('bk_msg');
-    location.href='mailto:theplanningdesk25@gmail.com?subject='+encodeURIComponent('Planning Diagnostic request: '+g('bk_co'))+'&body='+encodeURIComponent(body);
-  });
+  // lead forms handled by tpdLead
 </script>
 
 <script>
@@ -732,6 +750,28 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
   go();
   addEventListener('hashchange', go);
 })();
+</script>
+<script>
+window.tpdLead=function(form,source){
+  var data={}; new FormData(form).forEach(function(v,k){data[k]=v;});
+  data.source=source; data.page=location.pathname; data.referrer=document.referrer||'';
+  var btn=form.querySelector('button[type=submit]')||form.querySelector('button'); var orig=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+   .then(function(r){if(!r.ok)throw new Error('bad');return r.json();})
+   .then(function(){
+     var ok=form.querySelector('.form-success');
+     Array.prototype.forEach.call(form.children,function(e){if(!e.classList.contains('form-success'))e.style.display='none';});
+     if(ok){ok.hidden=false;ok.setAttribute('tabindex','-1');try{ok.focus();}catch(e){}}
+   })
+   .catch(function(){
+     if(btn){btn.disabled=false;btn.textContent=orig;}
+     var lines=Object.keys(data).filter(function(k){return k.charAt(0)!=='_'&&['source','page','referrer'].indexOf(k)<0;})
+       .map(function(k){return k+': '+data[k];}).join('\n');
+     location.href='mailto:leads@the-planning-desk.com?subject='+encodeURIComponent('Website enquiry: '+source)+'&body='+encodeURIComponent(lines);
+   });
+  return false;
+};
 </script>
 </body>
 </html>

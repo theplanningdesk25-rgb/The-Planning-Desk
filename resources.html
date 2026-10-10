@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resources & White Papers | The Planning Desk</title>
@@ -11,7 +13,11 @@
 <meta property="og:title" content="Resources & White Papers | The Planning Desk">
 <meta property="og:description" content="When the Builder Leaves: what happens to the systems your operation runs on after the person who built them is gone. A white paper from The Planning Desk.">
 <meta property="og:url" content="https://the-planning-desk.com/resources">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://the-planning-desk.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://the-planning-desk.com/og-image.png">
 <meta name="twitter:title" content="Resources & White Papers | The Planning Desk">
 <meta name="twitter:description" content="When the Builder Leaves: what happens to the systems your operation runs on after the person who built them is gone. A white paper from The Planning Desk.">
 <meta name="description" content="When the Builder Leaves: what happens to the systems your operation runs on after the person who built them is gone. A white paper from The Planning Desk.">
@@ -270,8 +276,21 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 .toc li span{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--azure);padding-top:3px}
 
 </style>
+<style>
+/* accessibility + contrast overrides (2026-10) */
+:root{--muted:#5E666D;--muted-2:#6E767D;--azure-cta:#0D7AB0}
+.skip-link{position:absolute;left:12px;top:-48px;z-index:2000;background:#0D7AB0;color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;font-family:'Poppins',system-ui,sans-serif;font-weight:600;font-size:14px;transition:top .15s}
+.skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
+.btn-primary,.nav-cta .btn-primary,.play,.ep-card .play,.ic,.ai-card .ic{background:#0D7AB0}
+.btn-primary:hover{background:#0A6690}
+.subscribe input:focus,.form input:focus,.form textarea:focus,.sub-row input:focus,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #0D7AB0;outline-offset:1px;box-shadow:0 0 0 3px rgba(13,122,176,.45)}
+.form-success{background:var(--azure-tint);border:1px solid #BFE3F6;border-radius:12px;padding:20px 22px;color:#13384a}
+.form-success h3{color:var(--ink);font-size:20px;margin-bottom:6px}
+.form-error{color:#B4322C;font-size:13px;margin-top:10px}
+</style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header id="hdr">
   <div class="container nav">
     <a href="index.html" class="logo" aria-label="The Planning Desk home">
@@ -298,6 +317,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
     </nav>
   </div>
 </header>
+<main id="main" tabindex="-1">
 
 <section class="page-hero"><div class="container">
   <div class="eyebrow">Resources</div>
@@ -341,22 +361,23 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
         <div class="fb">The Planning Desk LLC</div>
       </div>
 
-      <div class="gate" id="request" style="margin-top:18px">
+      <form class="gate" id="request" style="margin-top:18px" onsubmit="return tpdLead(this,'whitepaper')">
         <h3 style="font-family:'Nunito';font-weight:800;font-size:19px;color:var(--ink);margin-bottom:6px">Request the paper</h3>
         <p style="font-size:14px;color:var(--muted);font-weight:300;margin-bottom:20px">Tell us where to send it. The download opens as soon as you submit.</p>
         <label for="wp_name">Name</label>
-        <input id="wp_name" type="text" placeholder="Your name" autocomplete="name">
+        <input id="wp_name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
         <label for="wp_email">Work email</label>
-        <input id="wp_email" type="email" placeholder="you@yourcompany.com" autocomplete="email">
+        <input id="wp_email" name="email" type="email" placeholder="you@yourcompany.com" autocomplete="email" required>
         <label for="wp_co">Company</label>
-        <input id="wp_co" type="text" placeholder="Company name" autocomplete="organization">
-        <button class="btn btn-primary" id="wp_go">Send me the paper &rarr;</button>
-        <div class="done" id="wp_done">
-          <p><b>Your mail app should have opened.</b> Send that message and we will have your details. The paper is below either way.</p>
+        <input id="wp_co" name="company" type="text" placeholder="Company name" autocomplete="organization">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <button class="btn btn-primary" type="submit" id="wp_go">Send me the paper &rarr;</button>
+        <p class="fine">We use this to send the paper and, occasionally, the Brief. No list rental, no sharing, leave anytime.</p>
+        <div class="done form-success" id="wp_done" hidden>
+          <p><b>Thanks. Your paper is ready.</b> We have your details and will be in touch.</p>
           <a class="btn btn-primary" href="When-the-Builder-Leaves-The-Planning-Desk.pdf" download>Download the PDF &rarr;</a>
         </div>
-        <p class="fine">We use this to send the paper and, occasionally, the Brief. No list rental, no sharing, leave anytime.</p>
-      </div>
+      </form>
     </div>
   </div>
 </div></section>
@@ -367,23 +388,9 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
   <div style="text-align:center"><a href="case-study.html" class="btn btn-primary">Read the case study &rarr;</a></div>
 </div></section>
 
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  var b=document.getElementById('wp_go');
-  if(!b)return;
-  b.addEventListener('click',function(){
-    var g=function(id){return (document.getElementById(id).value||'').trim();};
-    var n=g('wp_name'), e=g('wp_email'), c=g('wp_co');
-    var body='Please send me the white paper "When the Builder Leaves".'
-      +'\n\nName: '+n+'\nEmail: '+e+'\nCompany: '+c;
-    document.getElementById('wp_done').classList.add('show');
-    location.href='mailto:theplanningdesk25@gmail.com?subject='
-      +encodeURIComponent('White paper request: When the Builder Leaves')
-      +'&body='+encodeURIComponent(body);
-  });
-});
-</script>
+<!-- whitepaper form handled by tpdLead -->
 
+</main>
 <footer>
   <div class="container">
     <div class="foot-grid">
@@ -406,7 +413,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <a href="mailto:theplanningdesk25@gmail.com">theplanningdesk25@gmail.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:leads@the-planning-desk.com">leads@the-planning-desk.com</a><a href="contact.html">Book a diagnostic</a><a href="https://www.linkedin.com/in/tylergrefe" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
     <div class="foot-bar">
@@ -423,6 +430,28 @@ if(burger){burger.addEventListener('click',()=>{const o=navlinks.classList.toggl
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
+</script>
+<script>
+window.tpdLead=function(form,source){
+  var data={}; new FormData(form).forEach(function(v,k){data[k]=v;});
+  data.source=source; data.page=location.pathname; data.referrer=document.referrer||'';
+  var btn=form.querySelector('button[type=submit]')||form.querySelector('button'); var orig=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+   .then(function(r){if(!r.ok)throw new Error('bad');return r.json();})
+   .then(function(){
+     var ok=form.querySelector('.form-success');
+     Array.prototype.forEach.call(form.children,function(e){if(!e.classList.contains('form-success'))e.style.display='none';});
+     if(ok){ok.hidden=false;ok.setAttribute('tabindex','-1');try{ok.focus();}catch(e){}}
+   })
+   .catch(function(){
+     if(btn){btn.disabled=false;btn.textContent=orig;}
+     var lines=Object.keys(data).filter(function(k){return k.charAt(0)!=='_'&&['source','page','referrer'].indexOf(k)<0;})
+       .map(function(k){return k+': '+data[k];}).join('\n');
+     location.href='mailto:leads@the-planning-desk.com?subject='+encodeURIComponent('Website enquiry: '+source)+'&body='+encodeURIComponent(lines);
+   });
+  return false;
+};
 </script>
 </body>
 </html>
