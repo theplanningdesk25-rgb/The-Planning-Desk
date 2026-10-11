@@ -1,0 +1,13 @@
+# Cloudflare Worker config for the-planning-desk.com.
+# The site is static assets served from the repo root; the Worker (worker.js)
+# adds the POST /api/lead endpoint. RESEND_API_KEY is a secret, not set here.
+# NOTE: `name` must match the existing Workers Builds project so this updates
+# it rather than creating a second Worker. Confirm in the Cloudflare dashboard.
+name = "theplanningdesk"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+not_found_handling = "404-page"
