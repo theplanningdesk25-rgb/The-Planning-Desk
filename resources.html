@@ -281,9 +281,9 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 :root{--muted:#5E666D;--muted-2:#6E767D;--azure-cta:#0D7AB0}
 .skip-link{position:absolute;left:12px;top:-48px;z-index:2000;background:#0D7AB0;color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;font-family:'Poppins',system-ui,sans-serif;font-weight:600;font-size:14px;transition:top .15s}
 .skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
-.btn-primary,.nav-cta .btn-primary,.play,.ep-card .play,.ic,.ai-card .ic{background:#0D7AB0}
+.btn-primary,.nav-cta .btn-primary,.btn.primary,.primary,.play,.playbtn,.ep-card .play,.ic,.ai-card .ic,.latest-badge,.tab.active,.cta a.btn,.cta button{background:#0D7AB0}
 .btn-primary:hover{background:#0A6690}
-.subscribe input:focus,.form input:focus,.form textarea:focus,.sub-row input:focus,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #0D7AB0;outline-offset:1px;box-shadow:0 0 0 3px rgba(13,122,176,.45)}
+.subscribe input:focus,.form input:focus,.form textarea:focus,.sub-row input:focus,.gate input:focus,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #0D7AB0;outline-offset:1px;box-shadow:0 0 0 3px rgba(13,122,176,.45)}
 .form-success{background:var(--azure-tint);border:1px solid #BFE3F6;border-radius:12px;padding:20px 22px;color:#13384a}
 .form-success h3{color:var(--ink);font-size:20px;margin-bottom:6px}
 .form-error{color:#B4322C;font-size:13px;margin-top:10px}
@@ -373,7 +373,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <button class="btn btn-primary" type="submit" id="wp_go">Send me the paper &rarr;</button>
         <p class="fine">We use this to send the paper and, occasionally, the Brief. No list rental, no sharing, leave anytime.</p>
-        <div class="done form-success" id="wp_done" hidden>
+        <div class="form-success" id="wp_done" hidden>
           <p><b>Thanks. Your paper is ready.</b> We have your details and will be in touch.</p>
           <a class="btn btn-primary" href="When-the-Builder-Leaves-The-Planning-Desk.pdf" download>Download the PDF &rarr;</a>
         </div>
