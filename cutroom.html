@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#0D7AB0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="light">
@@ -264,7 +265,57 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 .factbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .factbar span{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:6px 13px}
 
+/* Cut Room OS app previews — CSS-only mockups ("A look inside") */
+.peek-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-width:0}
+@media(max-width:760px){.peek-grid{grid-template-columns:1fr}}
+.appframe{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-sm);overflow:hidden;min-width:0}
+.appframe .afbar{display:flex;align-items:center;gap:6px;background:var(--surface-2);border-bottom:1px solid var(--line);padding:9px 14px}
+.appframe .afbar .d{width:8px;height:8px;border-radius:50%;background:#D8DDE2;flex:0 0 auto}
+.appframe .afbar .d:first-child{background:var(--azure)}
+.appframe .afbar .aft{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appframe .afui{padding:14px;display:flex;flex-direction:column;gap:9px}
+.aprow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:0}
+.aprow .who{min-width:0}
+.aprow .who b{display:block;font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aprow .who span{font-size:11px;color:var(--muted)}
+.chip{flex:0 0 auto;font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;padding:4px 9px;white-space:nowrap}
+.chip.ordered{background:#FFF4DE;color:#7A5512}
+.chip.cutting{background:var(--azure-tint);color:var(--azure-deep)}
+.chip.packaged{background:#E8F6EC;color:#2A6E3C}
+.chip.picked{background:var(--surface-2);color:var(--muted)}
+.cutsheet{border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.cutsheet .csh{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.cutsheet ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.cutsheet li{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:#3c454c;font-weight:300}
+.cutsheet li em{font-style:normal;font-family:'IBM Plex Mono';font-size:10px;color:var(--muted);text-align:right;flex:0 0 auto}
+.pkcount{display:flex;gap:8px;flex-wrap:wrap}
+.pkcount span{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-size:11px;color:var(--charcoal);font-weight:300}
+.pkcount span b{font-weight:600;color:var(--azure-deep)}
+.meatfrom{font-family:'IBM Plex Mono';font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:9px}
+.histsearch{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface-2);font-family:'IBM Plex Mono';font-size:10.5px;color:var(--muted)}
+.peek-cap{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);margin-top:16px;text-align:center}
+
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Cut Room OS",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "Cut Room OS runs a butcher shop's cut room on one shared screen — orders, cutting, packaging, pickup, and a searchable history of every customer. In production today.",
+  "url": "https://the-planning-desk.com/cutroom",
+  "brand": {
+    "@type": "Organization",
+    "name": "The Planning Desk LLC"
+  },
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "url": "https://the-planning-desk.com/cutroom#demo"
+  }
+}
+</script>
 <style>
 /* accessibility + contrast overrides (2026-10) */
 :root{--muted:#5E666D;--muted-2:#6E767D;--azure-cta:#0D7AB0}
@@ -393,6 +444,58 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
     </div>
   </div>
 
+  <!-- "A look inside": CSS-only previews of the Cut Room OS UI (no external images).
+       All names, weights, and orders below are invented sample data.
+       Real app screenshots can replace these panels later. -->
+  <div class="prose reveal" style="margin-top:10px">
+    <h2>A look inside</h2>
+    <p>The board the whole shop shares &mdash; orders in, the cut room, packaging, pickup, and a searchable history. Shown here with sample data.</p>
+  </div>
+
+  <div class="peek-grid reveal" aria-hidden="true">
+    <div class="appframe">
+      <div class="afbar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="aft">Cut Room OS &middot; Orders</span></div>
+      <div class="afui">
+        <div class="aprow"><div class="who"><b>Dana Whitfield</b><span>Quarter beef &middot; 212 lb hanging</span></div><span class="chip cutting">In cut room</span></div>
+        <div class="aprow"><div class="who"><b>Ray &amp; Marta Koski</b><span>Half hog &middot; 96 lb</span></div><span class="chip ordered">Ordered</span></div>
+        <div class="aprow"><div class="who"><b>Ellis Family Farm</b><span>Whole lamb &middot; 48 lb</span></div><span class="chip packaged">Packaged</span></div>
+        <div class="aprow"><div class="who"><b>Tom Novak</b><span>Half beef &middot; 391 lb hanging</span></div><span class="chip picked">Picked up</span></div>
+      </div>
+    </div>
+    <div class="appframe">
+      <div class="afbar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="aft">Cut room &middot; Batch 41</span></div>
+      <div class="afui">
+        <div class="aprow"><div class="who"><b>Whole beef &middot; steer #12</b><span>Whitfield (quarter) + Novak (half)</span></div><span class="chip cutting">Cutting</span></div>
+        <div class="cutsheet">
+          <div class="csh">Cut sheet &middot; Whitfield</div>
+          <ul>
+            <li>Ribeye steak<em>1&frac14;&Prime; &middot; 2 per pack &middot; vac seal</em></li>
+            <li>Chuck roast<em>3 lb &middot; vac seal</em></li>
+            <li>Sirloin tip roast<em>2&frac12; lb</em></li>
+            <li>Ground beef<em>1 lb &middot; lean &middot; balance</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="appframe">
+      <div class="afbar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="aft">Packaged &middot; ready for pickup</span></div>
+      <div class="afui">
+        <div class="aprow"><div class="who"><b>Ellis Family Farm</b><span>Whole lamb &middot; packed today</span></div><span class="chip packaged">Ready</span></div>
+        <div class="pkcount"><span><b>8</b> chop packs</span><span><b>2</b> legs</span><span><b>3</b> shoulder roasts</span><span><b>11</b> ground</span></div>
+        <div class="meatfrom">Meat from: Ellis Family Farm &middot; lamb #7 &middot; 48 lb</div>
+      </div>
+    </div>
+    <div class="appframe">
+      <div class="afbar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="aft">History</span></div>
+      <div class="afui">
+        <div class="histsearch">&#8981; search &ldquo;koski&rdquo;</div>
+        <div class="aprow"><div class="who"><b>Ray &amp; Marta Koski</b><span>Half hog &middot; Oct 2026</span></div><span class="chip picked">Picked up</span></div>
+        <div class="aprow"><div class="who"><b>Ray &amp; Marta Koski</b><span>Half beef &middot; Feb 2026</span></div><span class="chip picked">Picked up</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="peek-cap reveal">A peek at Cut Room OS &mdash; illustrative panels with sample data, not screenshots.</p>
+
   <div class="prose reveal">
     <h2>In their words &mdash; Fairmont Butcher Block</h2>
     <p>Fairmont ran on paper &ldquo;from the beginning.&rdquo; We built Cut Room OS with them, designing the cut sheet around how they actually work &mdash; and it's in production today.</p>
@@ -426,6 +529,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       <div class="f"><label for="cr-shop">Shop</label><input id="cr-shop" name="shop" required></div>
       <div class="f"><label for="cr-email">Email</label><input id="cr-email" name="email" type="email" autocomplete="email" required></div>
       <div class="f"><label for="cr-msg">What's your cut room like today?</label><textarea id="cr-msg" name="message" rows="3"></textarea></div>
+      <div class="f" aria-hidden="true" style="position:absolute;left:-9999px"><label for="cr_hp">Leave blank</label><input type="text" id="cr_hp" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <button type="submit" class="btn btn-primary">Request a demo</button>
       <div class="form-success" hidden><h3>Thanks &mdash; we'll be in touch.</h3><p>We'll reach out to set up your Cut Room OS demo.</p></div>
     </form>
@@ -451,7 +555,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
       </div>
       <div class="foot-col">
         <h5>Podcast</h5>
-        <a href="podcast.html">All episodes</a><a href="ask-the-desk.html">Ask the Desk</a><a href="podcast.html#guest">Be a guest</a><a href="https://www.podbean.com/media/share/pb-xrmzh-1b17876">Listen on Podbean</a>
+        <a href="podcast.html">All episodes</a><a href="ask-the-desk.html">Ask the Desk</a><a href="podcast.html#guest">Be a guest</a><a href="https://www.podbean.com/media/share/pb-52rpn-1b49259">Listen on Podbean</a>
       </div>
       <div class="foot-col">
         <h5>Contact</h5>

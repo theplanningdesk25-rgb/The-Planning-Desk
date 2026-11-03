@@ -1,4 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="theme-color" content="#0D7AB0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -245,7 +246,10 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 .svc-wide{grid-column:1/-1;background:linear-gradient(120deg,#fff,var(--surface-2))}
 .svc-wide ul{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px 30px}
 @media(max-width:760px){.svc-wide ul{flex-direction:column;gap:7px}}
+.skip-link{position:absolute;left:12px;top:-48px;z-index:2000;background:#0D7AB0;color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;font-family:'Poppins',system-ui,sans-serif;font-weight:600;font-size:14px;transition:top .15s}
+.skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-3px}
 </style></head><body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header id="hdr">
   <div class="container nav">
     <a href="/" class="logo" aria-label="The Planning Desk home">
@@ -273,6 +277,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
     </nav>
   </div>
 </header>
+<main id="main" tabindex="-1">
 <section style="padding:clamp(60px,10vw,110px) 0"><div class="container" style="text-align:center;max-width:640px">
 <div class="eyebrow">404</div>
 <h1 style="font-family:'Nunito';font-weight:900;font-size:clamp(30px,5vw,46px);color:var(--ink);margin:14px 0 16px">That page moved.</h1>
@@ -281,6 +286,7 @@ footer{background:var(--ink);color:#c9d0d6;} footer h5,footer a,footer span{colo
 <a href="podcast.html" class="btn btn-primary">Podcast episodes</a>
 <a href="ask-the-desk.html" class="btn btn-ghost">Ask the Desk</a>
 <a href="index.html" class="btn btn-ghost">Home</a></div></div></section>
+</main>
 <script>const hdr=document.getElementById('hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10));
 const burger=document.getElementById('burger'),navlinks=document.getElementById('navlinks');
 if(burger){burger.addEventListener('click',()=>{const o=navlinks.classList.toggle('open');burger.setAttribute('aria-expanded',o);});}</script>
